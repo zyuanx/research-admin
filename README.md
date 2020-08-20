@@ -4,13 +4,11 @@
 
 > Dynamic form, survey questionnaire frontend system. Back-end repo: [research_sys](https://github.com/Pandalzy/research_sys)
 
-### 
+<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820112910.png" />
 
-<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820112910.png" style="width:80%;" />
+<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820112943.png" />
 
-<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820112943.png" style="width:80%;" />
-
-<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820113217.png" style="zoom:50%;" />
+<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820113217.png" style="width:500px;" />
 
 ### Built With
 
