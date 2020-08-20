@@ -8,7 +8,7 @@
 
 <img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820112943.png" />
 
-<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820113217.png" style="width:500px;" />
+<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820113217.png" width="500px" />
 
 ### Built With
 
