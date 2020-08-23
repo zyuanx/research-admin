@@ -9,7 +9,7 @@ import {
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+    baseURL: "http://127.0.0.1:8000/api/", // url = base url + request url
     // withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000 // request timeout
 })

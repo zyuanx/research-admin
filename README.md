@@ -43,11 +43,10 @@ npm install
 
 ### Configuration
 
-Edit `.env.development` file and modify base api.
+Edit `src/util/request.js` file and modify base api.
 
 ```python
-# base api
-VUE_APP_BASE_API = 'http://127.0.0.1:8000/api/'
+baseURL: "http://127.0.0.1:8000/api/"
 ```
 
 ### Run
