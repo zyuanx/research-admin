@@ -34,13 +34,6 @@
             ></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <!-- <el-button
-                        type="primary"
-                        icon="el-icon-edit"
-                        size="mini"
-                        circle
-                        @click="showEditDialog(scope.row)"
-                    ></el-button> -->
                     <el-tooltip
                         effect="dark"
                         content="调研数据"
@@ -51,6 +44,7 @@
                             icon="el-icon-s-data"
                             size="mini"
                             circle
+                            @click="exportResearchData(scope.row)"
                         ></el-button>
                     </el-tooltip>
                     <el-tooltip
@@ -66,6 +60,19 @@
                             @click="previewResearch(scope.row)"
                         ></el-button>
                     </el-tooltip>
+                    <el-tooltip
+                        effect="dark"
+                        content="删除调研"
+                        placement="top"
+                    >
+                        <el-button
+                            type="danger"
+                            icon="el-icon-delete"
+                            size="mini"
+                            circle
+                            @click="deleteDialog(scope.row)"
+                        ></el-button>
+                    </el-tooltip>
                 </template>
             </el-table-column>
         </el-table>
@@ -78,11 +85,21 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
         ></el-pagination>
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+            <span>是否确认删除</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="deleteResearch()"
+                >确 定</el-button
+                >
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
-import { listResearch, readResearch, updateResearch } from "@/api/research";
+import {listResearch, exportResearchData, updateResearch, deleteResearch} from "@/api/research";
+import {Message} from "element-ui";
 
 export default {
     data() {
@@ -93,7 +110,9 @@ export default {
             listQuery: {
                 page: 1,
                 size: 10
-            }
+            },
+            dialogVisible: false,
+            researchId: null
         };
     },
     created() {
@@ -111,42 +130,83 @@ export default {
             });
         },
         // 调研状态更新
-        researchStateChange: function(row) {
+        researchStateChange: function (row) {
             console.log(row);
             updateResearch(
                 {
                     status: row.status
                 },
                 row.id
-            ).then(() => {});
+            ).then(res => {
+                Message({
+                    message: res.msg,
+                    type: "success",
+                    duration: 1000,
+                    offset: 200
+                });
+            });
+        },
+        // 调研数据导出
+        exportResearchData: function (row) {
+            Message({
+                message: "请稍等",
+                type: "success",
+                duration: 1000,
+                offset: 200
+            });
+            exportResearchData({
+                research_id: row.id
+            }).then((res) => {
+                let data = res // 这里后端对文件流做了一层封装，将data指向res.data即可
+                if (!data) {
+                    return
+                }
+                let url = window.URL.createObjectURL(new Blob([data],
+                    {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"}))
+                let a = document.createElement("a")
+                a.style.display = "none"
+                a.href = url
+                a.setAttribute("download", row.id + ".xlsx")
+                document.body.appendChild(a)
+                a.click() // 执行下载
+                window.URL.revokeObjectURL(a.href) // 释放url
+                document.body.removeChild(a) // 释放标签
+            })
         },
         // 调研预览
-        previewResearch: function(row) {
-            console.log(row);
-            const { href } = this.$router.resolve({
-                path: "/preview",
-                query: { id: row.id }
+        previewResearch: function (row) {
+            const {href} = this.$router.resolve({
+                name: "Preview",
+                params: {id: row.id}
             });
             window.open(href, "_blank");
         },
-        handlePreview(index, row) {
-            console.log(index, row.id);
-            readResearch(row.id).then(response => {
-                console.log(response);
-            });
+        deleteDialog: function (row) {
+            this.researchId = row.id;
+            this.dialogVisible = true;
         },
-        handleView(index, row) {
-            console.log(index, row.id);
+        // 删除调研
+        deleteResearch: function () {
+            deleteResearch(this.researchId).then(res => {
+                Message({
+                    message: res.msg,
+                    type: "success",
+                    duration: 1000,
+                    offset: 200
+                });
+                this.dialogVisible = false;
+                this.fetchData();
+            });
         },
         handleSizeChange(val) {
             this.listQuery.size = val;
             this.fetchData();
-            console.log(`每页 ${val} 条`);
+            // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
             this.listQuery.page = val;
             this.fetchData();
-            console.log(`当前页: ${val}`);
+            // console.log(`当前页: ${val}`);
         }
     }
 };

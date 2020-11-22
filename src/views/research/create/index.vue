@@ -481,14 +481,14 @@
                                     v-model="research.desc"
                                 ></el-input>
                             </el-form-item>
-                            <el-form-item label="是否重复填写">
+                            <!-- <el-form-item label="是否重复填写">
                                 <el-switch
                                     v-model="research.once"
                                     :active-value="1"
                                     :inactive-value="0"
                                 >
                                 </el-switch>
-                            </el-form-item>
+                            </el-form-item> -->
                             <el-form-item label="调研提交名称" prop="confirm">
                                 <el-input
                                     placeholder="如：确定、提交"
@@ -505,9 +505,9 @@
                                         @click="onSubmit('basicSettingsRef')"
                                         >创建</el-button
                                     >
-                                    <el-button type="success" size="medium"
+                                    <!-- <el-button type="success" size="medium"
                                         >预览</el-button
-                                    >
+                                    > -->
                                 </el-button-group>
                             </el-form-item>
                         </el-form>
@@ -520,6 +520,7 @@
 
 <script>
 import { createResearch } from "@/api/research";
+import { Message } from "element-ui";
 
 export default {
     data() {
@@ -758,7 +759,14 @@ export default {
         onSubmit: function(formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    createResearch(this.research).then(() => {});
+                    createResearch(this.research).then(res => {
+                        Message({
+                            message: res.msg,
+                            type: "success",
+                            duration: 1000,
+                            offset: 200
+                        });
+                    });
                 } else {
                     console.log("error submit!!");
                     return false;

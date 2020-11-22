@@ -6,32 +6,9 @@ Vue.use(Router)
 /* Layout */
 import Layout from "@/layout"
 
-/**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
- *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
- * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
-  }
- */
-
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
 export const constantRoutes = [{
         path: "/login",
+        name: "Login",
         component: () => import("@/views/login/index"),
         hidden: true
     },
@@ -62,7 +39,7 @@ export const constantRoutes = [{
         redirect: "/research/create",
         name: "Research",
         meta: {
-            title: "自定义调研",
+            title: "调研问卷",
             icon: "el-icon-s-help",
         },
         children: [{
@@ -86,11 +63,23 @@ export const constantRoutes = [{
         ]
     },
     {
-        path: "/preview",
+        path: "/preview/:id",
         component: () => import("@/views/research/preview/index"),
         name: "Preview",
-        hidden: true
+        hidden: true,
+        meta: {
+            title: "调研信息",
+        }
     },
+    // {
+    //     path: "/visit",
+    //     component: () => import("@/views/visit/index"),
+    //     name: "Visit",
+    //     hidden: true,
+    //     meta: {
+    //         title: "忆先烈、迎国庆",
+    //     }
+    // },
     // 404 page must be placed at the end !!!
     {
         path: "*",
@@ -109,6 +98,13 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
+router.beforeEach((to, from, next) => {
+    /* 路由发生变化修改页面title */
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
+    next()
+})
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
     const newRouter = createRouter()

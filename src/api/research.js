@@ -8,6 +8,7 @@ export function createResearch(data) {
         data: data
     })
 }
+
 // 获取调研列表
 export function listResearch(query) {
     return request({
@@ -16,6 +17,7 @@ export function listResearch(query) {
         params: query
     })
 }
+
 // 更新调研信息
 export function updateResearch(data, id) {
     return request({
@@ -24,11 +26,20 @@ export function updateResearch(data, id) {
         data: data
     })
 }
+
 // 获取调研问卷
 export function readResearch(id) {
     return request({
         url: "/research/list/" + id + "/",
         method: "get"
+    })
+}
+
+// 删除调研问卷
+export function deleteResearch(id) {
+    return request({
+        url: "/research/list/" + id + "/",
+        method: "delete"
     })
 }
 
@@ -47,5 +58,15 @@ export function listResearchData(query) {
         url: "/research/data/",
         method: "get",
         params: query
+    })
+}
+
+// 导出调研数据
+export function exportResearchData(query) {
+    return request({
+        url: "/research/export/",
+        method: "get",
+        params: query,
+        responseType: "blob"
     })
 }

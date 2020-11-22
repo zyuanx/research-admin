@@ -7,6 +7,7 @@
             label-position="top"
             label-width="100px"
             size="small"
+            :disabled="status"
         >
             <!-- 问卷基础信息 -->
             <div class="center-basic">
@@ -137,11 +138,18 @@
 </template>
 
 <script>
-import { readResearch, createResearchData } from "@/api/research";
+import {
+    readResearch,
+    createResearchData,
+    listResearchData
+} from "@/api/research";
+import { Message } from "element-ui";
+import axios from "axios";
 export default {
     name: "Preview",
     data() {
         return {
+            user: {},
             research: {}
         };
     },
@@ -149,35 +157,107 @@ export default {
         this.getResearse();
     },
     methods: {
+        // 获取指定id下的问卷
         getResearse() {
             // 注意为route并非router
-            const id = this.$route.query.id;
-            const that = this;
+            const id = this.$route.params.id;
+            const user = this.$route.query.user;
             readResearch(id).then(res => {
-                console.log(res.data.detail);
-                that.research = res.data;
+                this.research = res.data;
+                if (res.data.status === 0) {
+                    Message({
+                        message: "调研已停止收集",
+                        type: "error",
+                        duration: 3 * 1000,
+                        offset: 200
+                    });
+                } else if (user) {
+                    this.getUserInfo(user);
+                } else {
+                    if (user) {
+                        this.getUserInfo(id, user);
+                    } else {
+                        Message({
+                            message: "预览模式",
+                            type: "success",
+                            duration: 1000,
+                            offset: 200
+                        });
+                    }
+                }
             });
+        },
+        // 获取用户某一问卷填写信息
+        getUserResearchData(id, user) {
+            listResearchData({
+                research_id: id,
+                username: user
+            }).then(res => {
+                if (res.data.count) {
+                    this.user = {};
+                    Message({
+                        message: "已完成填写",
+                        type: "success",
+                        duration: 1000,
+                        offset: 200
+                    });
+                }
+            });
+        },
+        // 获取用户信息
+        getUserInfo(user) {
+            axios
+                .get("https://job.cumtserver.cn/user_info/" + user)
+                .then(res => {
+                    if (res.data.data) {
+                        this.user = res.data.data["userInfo"];
+                        const id = this.$route.params.id;
+                        this.getUserResearchData(id, user);
+                    } else {
+                        Message({
+                            message: "不存在此用户信息",
+                            type: "error",
+                            duration: 3 * 1000,
+                            offset: 200
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    console.log("error", error);
+                });
         },
         submitForm(formName) {
             this.$refs[formName].validate(valid => {
                 const postData = {
                     research_id: this.research.id,
+                    user: this.user,
                     detail: this.research.fieldsValue
                 };
-                console.log(postData);
                 if (valid) {
-                    createResearchData({
-                        research_id: this.research.id,
-                        detail: this.research.fieldsValue
+                    createResearchData(postData).then(res => {
+                        if (res.code === 201) {
+                            Message({
+                                message: "提交成功",
+                                type: "success",
+                                duration: 1000,
+                                offset: 200
+                            });
+                        }
                     });
                 } else {
-                    console.log("error submit!!");
                     return false;
                 }
             });
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
+        }
+    },
+    computed: {
+        status() {
+            // this.research["status"]为1，在收集
+            // this.user为空，错误
+            return !this.research["status"] || !this.user["username"];
         }
     }
 };

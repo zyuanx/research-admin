@@ -9,7 +9,8 @@ import {
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/", // url = base url + request url
+    // baseURL: "http://127.0.0.1:8001/api/", // url = base url + request url
+    baseURL: "https://researchapi.zyuanlee.cn/api/",
     // withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000 // request timeout
 })
@@ -39,13 +40,7 @@ service.interceptors.response.use(
     response => {
         const res = response.data
         console.log(res)
-        if (res.code <= 399) {
-            Message({
-                message: res.msg,
-                type: "success",
-                duration: 1000,
-            });
-        } else {
+        if (res.code >= 400) {
             Message({
                 message: res.msg || "Error",
                 type: "error",
@@ -76,11 +71,11 @@ service.interceptors.response.use(
         console.log("err" + error) // for debug
         const res = error.response.data
         console.log(res)
-        Message({
-            message: res.msg,
-            type: "error",
-            duration: 5 * 1000
-        })
+        // Message({
+        //     message: res.msg,
+        //     type: "error",
+        //     duration: 5 * 1000
+        // })
         return Promise.reject(new Error(res.msg || "Error"))
     }
 )

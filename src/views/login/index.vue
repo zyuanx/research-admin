@@ -84,8 +84,8 @@ export default {
         };
         return {
             loginForm: {
-                username: "admin",
-                password: "123456"
+                username: "",
+                password: ""
             },
             loginRules: {
                 username: [
@@ -128,9 +128,6 @@ export default {
             });
         },
         handleLogin() {
-            // login(this.loginForm).then(response => {
-            //     console.log(response)
-            // });
             this.$refs.loginForm.validate(valid => {
                 if (valid) {
                     this.loading = true;
@@ -144,7 +141,7 @@ export default {
                             this.loading = false;
                         });
                 } else {
-                    console.log("error submit!!");
+                    // 表单校验失败
                     return false;
                 }
             });
