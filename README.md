@@ -2,13 +2,18 @@
 
 ## About The Project
 
-> Dynamic form, survey questionnaire frontend system. Back-end repo: [research_sys](https://github.com/Pandalzy/research_sys)
+> Dynamic form, survey questionnaire frontend system. Back-end repo: 
 
-<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820112910.png" />
+-   [x] Create custom research
+-   [x] Update research info
+-   [x] Download research data
+-   [x] Delete research
 
-<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820112943.png" />
+<img src="./assets/create.png" />
 
-<img src="https://gitee.com/pandalzy/cloud_img/raw/master/imgs/20200820113217.png" width="500px" />
+<img src="./assets/list.png" />
+
+<img src="./assets/preview.png" width=400/>
 
 ### Built With
 
@@ -58,9 +63,3 @@ npm run serve
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-
-zyuanlee - zyuanlee@cumt.edu.cn
-
-Project Link: [https://github.com/Pandalzy/vue-research-admin](https://github.com/Pandalzy/vue-research-admin)
