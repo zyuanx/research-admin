@@ -15,6 +15,7 @@ import {
 const getDefaultState = () => {
     return {
         token: getToken(),
+        username: "",
         nickname: "",
         avatar: ""
     }
@@ -28,6 +29,9 @@ const mutations = {
     },
     SET_TOKEN: (state, token) => {
         state.token = token
+    },
+    SET_USERNAME: (state, username) => {
+        state.username = username
     },
     SET_NICKNAME: (state, nickname) => {
         state.nickname = nickname
@@ -79,10 +83,12 @@ const actions = {
                 }
 
                 const {
+                    username,
                     nickname,
                     avatar
                 } = data
 
+                commit("SET_USERNAME", username)
                 commit("SET_NICKNAME", nickname)
                 commit("SET_AVATAR", avatar)
                 resolve(data)

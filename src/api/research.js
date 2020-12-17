@@ -19,9 +19,9 @@ export function listResearch(query) {
 }
 
 // 更新调研信息
-export function updateResearch(data, id) {
+export function updateResearch(data) {
     return request({
-        url: "/research/list/" + id + "/",
+        url: `/research/list/${data.id}/`,
         method: "patch",
         data: data
     })

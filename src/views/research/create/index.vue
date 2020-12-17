@@ -761,7 +761,7 @@ export default {
                 if (valid) {
                     createResearch(this.research).then(res => {
                         Message({
-                            message: res.msg,
+                            message: res.message,
                             type: "success",
                             duration: 1000,
                             offset: 200

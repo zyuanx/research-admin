@@ -14,7 +14,7 @@ NProgress.configure({
     showSpinner: false
 }) // NProgress Configuration
 
-const whiteList = ["Login", "Preview", "Visit"] // no redirect whitelist
+const whiteList = ["Login", "Preview"] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
     // start progress bar

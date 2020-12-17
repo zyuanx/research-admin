@@ -175,7 +175,7 @@ export default {
                     this.getUserInfo(user);
                 } else {
                     if (user) {
-                        this.getUserInfo(id, user);
+                        this.getUserResearchData(id, user);
                     } else {
                         Message({
                             message: "预览模式",
@@ -235,14 +235,12 @@ export default {
                 };
                 if (valid) {
                     createResearchData(postData).then(res => {
-                        if (res.code === 201) {
-                            Message({
-                                message: "提交成功",
-                                type: "success",
-                                duration: 1000,
-                                offset: 200
-                            });
-                        }
+                        Message({
+                            message: "提交成功",
+                            type: "success",
+                            duration: 1000,
+                            offset: 200
+                        });
                     });
                 } else {
                     return false;

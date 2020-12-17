@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-        <el-table :data="form_data" border stripe style="width: 100%">
+        <el-table :data="formData" border stripe style="width: 100%">
             <el-table-column
                 type="index"
                 label="#"
@@ -90,7 +90,7 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="deleteResearch()"
-                >确 定</el-button
+                    >确 定</el-button
                 >
             </span>
         </el-dialog>
@@ -98,14 +98,19 @@
 </template>
 
 <script>
-import {listResearch, exportResearchData, updateResearch, deleteResearch} from "@/api/research";
-import {Message} from "element-ui";
+import {
+    listResearch,
+    exportResearchData,
+    updateResearch,
+    deleteResearch
+} from "@/api/research";
+import { Message } from "element-ui";
 
 export default {
     data() {
         return {
             listLoading: false,
-            form_data: [],
+            formData: [],
             total: 0,
             listQuery: {
                 page: 1,
@@ -123,23 +128,20 @@ export default {
             this.listLoading = true;
             const that = this;
             listResearch(this.listQuery).then(response => {
-                that.form_data = response.data.results;
+                that.formData = response.data.results;
                 that.listQuery.page = response.data.page;
                 that.total = response.data.count;
                 that.listLoading = false;
             });
         },
         // 调研状态更新
-        researchStateChange: function (row) {
-            console.log(row);
-            updateResearch(
-                {
-                    status: row.status
-                },
-                row.id
-            ).then(res => {
+        researchStateChange: function(row) {
+            updateResearch({
+                id: row.id,
+                status: row.status
+            }).then(res => {
                 Message({
-                    message: res.msg,
+                    message: res.message,
                     type: "success",
                     duration: 1000,
                     offset: 200
@@ -147,7 +149,7 @@ export default {
             });
         },
         // 调研数据导出
-        exportResearchData: function (row) {
+        exportResearchData: function(row) {
             Message({
                 message: "请稍等",
                 type: "success",
@@ -156,40 +158,44 @@ export default {
             });
             exportResearchData({
                 research_id: row.id
-            }).then((res) => {
-                let data = res // 这里后端对文件流做了一层封装，将data指向res.data即可
+            }).then(res => {
+                let data = res; // 这里后端对文件流做了一层封装，将data指向res.data即可
                 if (!data) {
-                    return
+                    return;
                 }
-                let url = window.URL.createObjectURL(new Blob([data],
-                    {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"}))
-                let a = document.createElement("a")
-                a.style.display = "none"
-                a.href = url
-                a.setAttribute("download", row.id + ".xlsx")
-                document.body.appendChild(a)
-                a.click() // 执行下载
-                window.URL.revokeObjectURL(a.href) // 释放url
-                document.body.removeChild(a) // 释放标签
-            })
+                let url = window.URL.createObjectURL(
+                    new Blob([data], {
+                        type:
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+                    })
+                );
+                let a = document.createElement("a");
+                a.style.display = "none";
+                a.href = url;
+                a.setAttribute("download", row.id + ".xlsx");
+                document.body.appendChild(a);
+                a.click(); // 执行下载
+                window.URL.revokeObjectURL(a.href); // 释放url
+                document.body.removeChild(a); // 释放标签
+            });
         },
         // 调研预览
-        previewResearch: function (row) {
-            const {href} = this.$router.resolve({
+        previewResearch: function(row) {
+            const { href } = this.$router.resolve({
                 name: "Preview",
-                params: {id: row.id}
+                params: { id: row.id }
             });
             window.open(href, "_blank");
         },
-        deleteDialog: function (row) {
+        deleteDialog: function(row) {
             this.researchId = row.id;
             this.dialogVisible = true;
         },
         // 删除调研
-        deleteResearch: function () {
+        deleteResearch: function() {
             deleteResearch(this.researchId).then(res => {
                 Message({
-                    message: res.msg,
+                    message: res.message,
                     type: "success",
                     duration: 1000,
                     offset: 200
@@ -201,12 +207,9 @@ export default {
         handleSizeChange(val) {
             this.listQuery.size = val;
             this.fetchData();
-            // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
             this.listQuery.page = val;
-            this.fetchData();
-            // console.log(`当前页: ${val}`);
         }
     }
 };
