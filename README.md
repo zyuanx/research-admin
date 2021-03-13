@@ -2,7 +2,7 @@
 
 ## About The Project
 
-> Dynamic form, survey questionnaire frontend system. Back-end repo: [research_sys]([Pandalzy/research_sys: Dynamic form, survey questionnaire backend system. 动态表单调研问卷后端 (github.com)](https://github.com/Pandalzy/research_sys))
+> Dynamic form, survey questionnaire frontend system. Back-end repo: [research_sys](https://github.com/Pandalzy/research_sys)
 
 ### Work list
 
