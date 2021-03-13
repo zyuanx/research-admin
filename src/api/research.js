@@ -3,7 +3,7 @@ import request from "@/utils/request"
 // 创建调研
 export function createResearch(data) {
     return request({
-        url: "/research/list/",
+        url: "/api/research/list/",
         method: "post",
         data: data
     })
@@ -12,7 +12,7 @@ export function createResearch(data) {
 // 获取调研列表
 export function listResearch(query) {
     return request({
-        url: "/research/list/",
+        url: "/api/research/list/",
         method: "get",
         params: query
     })
@@ -21,7 +21,7 @@ export function listResearch(query) {
 // 更新调研信息
 export function updateResearch(data) {
     return request({
-        url: `/research/list/${data.id}/`,
+        url: `/api/research/list/${data.id}/`,
         method: "patch",
         data: data
     })
@@ -30,7 +30,7 @@ export function updateResearch(data) {
 // 获取调研问卷
 export function readResearch(id) {
     return request({
-        url: "/research/list/" + id + "/",
+        url: `/api/research/list/${id}/`,
         method: "get"
     })
 }
@@ -38,7 +38,7 @@ export function readResearch(id) {
 // 删除调研问卷
 export function deleteResearch(id) {
     return request({
-        url: "/research/list/" + id + "/",
+        url: "/api/research/list/" + id + "/",
         method: "delete"
     })
 }
@@ -46,7 +46,7 @@ export function deleteResearch(id) {
 // 提交调研数据
 export function createResearchData(data) {
     return request({
-        url: "/research/data/",
+        url: "/api/research/data/",
         method: "post",
         data: data
     })
@@ -55,7 +55,7 @@ export function createResearchData(data) {
 // 获取调研数据
 export function listResearchData(query) {
     return request({
-        url: "/research/data/",
+        url: "/api/research/data/",
         method: "get",
         params: query
     })
@@ -64,7 +64,7 @@ export function listResearchData(query) {
 // 导出调研数据
 export function exportResearchData(query) {
     return request({
-        url: "/research/export/",
+        url: "/api/research/export/",
         method: "get",
         params: query,
         responseType: "blob"

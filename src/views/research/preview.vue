@@ -78,8 +78,6 @@
                     <el-switch
                         v-else-if="item.factor === 'switch'"
                         v-model="research.fieldsValue[item.fieldId]"
-                        active-color="#13ce66"
-                        inactive-color="#DCDFE6"
                         :active-value="item.activeValue"
                         :inactive-value="item.inactiveValue"
                     ></el-switch>
@@ -142,9 +140,8 @@ import {
     readResearch,
     createResearchData,
     listResearchData
-} from "@/api/research";
+} from "@/api/research/preview";
 import { Message } from "element-ui";
-import axios from "axios";
 export default {
     name: "Preview",
     data() {
@@ -154,38 +151,27 @@ export default {
         };
     },
     created() {
-        this.getResearse();
+        this.readResearch();
     },
     methods: {
         // 获取指定id下的问卷
-        getResearse() {
-            // 注意为route并非router
+        async readResearch() {
             const id = this.$route.params.id;
-            const user = this.$route.query.user;
-            readResearch(id).then(res => {
-                this.research = res.data;
-                if (res.data.status === 0) {
-                    Message({
-                        message: "调研已停止收集",
-                        type: "error",
-                        duration: 3 * 1000,
-                        offset: 200
-                    });
-                } else if (user) {
-                    this.getUserInfo(user);
-                } else {
-                    if (user) {
-                        this.getUserResearchData(id, user);
-                    } else {
-                        Message({
-                            message: "预览模式",
-                            type: "success",
-                            duration: 1000,
-                            offset: 200
-                        });
-                    }
-                }
-            });
+            const res = await readResearch(id);
+            this.research = res.data;
+
+            if (res.data.status === 0) {
+                Message({
+                    message: "调研已停止收集",
+                    type: "error",
+                    duration: 3 * 1000,
+                    offset: 200
+                });
+            }
+        },
+        async createResearchData(data) {
+            await createResearchData(data);
+            this.$message.success("提交成功");
         },
         // 获取用户某一问卷填写信息
         getUserResearchData(id, user) {
@@ -204,44 +190,14 @@ export default {
                 }
             });
         },
-        // 获取用户信息
-        getUserInfo(user) {
-            axios
-                .get("https://job.cumtserver.cn/user_info/" + user)
-                .then(res => {
-                    if (res.data.data) {
-                        this.user = res.data.data["userInfo"];
-                        const id = this.$route.params.id;
-                        this.getUserResearchData(id, user);
-                    } else {
-                        Message({
-                            message: "不存在此用户信息",
-                            type: "error",
-                            duration: 3 * 1000,
-                            offset: 200
-                        });
-                    }
-                })
-                .catch(function(error) {
-                    console.log("error", error);
-                });
-        },
         submitForm(formName) {
             this.$refs[formName].validate(valid => {
-                const postData = {
-                    research_id: this.research.id,
-                    user: this.user,
-                    detail: this.research.fieldsValue
-                };
                 if (valid) {
-                    createResearchData(postData).then(res => {
-                        Message({
-                            message: "提交成功",
-                            type: "success",
-                            duration: 1000,
-                            offset: 200
-                        });
-                    });
+                    const payload = {
+                        research_id: this.research.id,
+                        detail: this.research.fieldsValue
+                    };
+                    this.createResearchData(payload);
                 } else {
                     return false;
                 }
@@ -255,7 +211,7 @@ export default {
         status() {
             // this.research["status"]为1，在收集
             // this.user为空，错误
-            return !this.research["status"] || !this.user["username"];
+            return !this.research["status"];
         }
     }
 };

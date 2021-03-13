@@ -14,12 +14,12 @@ NProgress.configure({
     showSpinner: false
 }) // NProgress Configuration
 
-const whiteList = ["Login", "Preview"] // no redirect whitelist
+const whiteList = ["/login"] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
     // start progress bar
     NProgress.start()
-    // console.log(to)
+
     // set page title
     document.title = getPageTitle(to.meta.title)
 
@@ -34,15 +34,23 @@ router.beforeEach(async (to, from, next) => {
             })
             NProgress.done()
         } else {
-            const hasGetUserInfo = store.getters.nickname
-            if (hasGetUserInfo) {
+            const hasRoles = store.getters.roles && store.getters.roles.length > 0
+            if (hasRoles) {
                 next()
             } else {
                 try {
                     // get user info
-                    await store.dispatch("user/getInfo")
-
-                    next()
+                    const {
+                        roles
+                    } = await store.dispatch("user/getInfo")
+                    const accessRoutes = await store.dispatch("permission/generateRoutes", roles)
+                    router.addRoutes(accessRoutes)
+                    // hack method to ensure that addRoutes is complete
+                    // set the replace: true, so the navigation will not leave a history record
+                    next({
+                        ...to,
+                        replace: true
+                    })
                 } catch (error) {
                     // remove token and go to login page to re-login
                     await store.dispatch("user/resetToken")
@@ -55,7 +63,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
         /* has no token*/
 
-        if (whiteList.indexOf(to.name) !== -1) {
+        if (whiteList.indexOf(to.path) !== -1) {
             // in the free login whitelist, go directly
             next()
         } else {

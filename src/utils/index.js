@@ -117,3 +117,25 @@ export function param2Obj(url) {
     })
     return obj
 }
+
+
+export function genTree(data) {
+    const result = []
+    if (!Array.isArray(data)) {
+        return result
+    }
+    const map = {}
+    data.forEach(item => {
+        item.label = item.title
+        map[item.id] = item
+    })
+    data.forEach(item => {
+        const parent = map[item.parent]
+        if (parent) {
+            (parent.children || (parent.children = [])).push(item)
+        } else {
+            result.push(item)
+        }
+    })
+    return result
+}

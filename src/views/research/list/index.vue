@@ -14,7 +14,7 @@
             <el-table-column
                 prop="desc"
                 label="描述"
-                min-width="350"
+                min-width="300"
             ></el-table-column>
             <el-table-column label="收集状态" width="80" align="center">
                 <template slot-scope="scope">
@@ -28,11 +28,16 @@
             </el-table-column>
             <el-table-column
                 prop="created_time"
-                label="时间"
+                label="创建时间"
                 width="160"
                 align="center"
             ></el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column
+                label="操作"
+                fixed="right"
+                width="140"
+                align="center"
+            >
                 <template slot-scope="scope">
                     <el-tooltip
                         effect="dark"
@@ -70,7 +75,7 @@
                             icon="el-icon-delete"
                             size="mini"
                             circle
-                            @click="deleteDialog(scope.row)"
+                            @click="deleteResearch(scope.row)"
                         ></el-button>
                     </el-tooltip>
                 </template>
@@ -85,15 +90,6 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
         ></el-pagination>
-        <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-            <span>是否确认删除</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteResearch()"
-                    >确 定</el-button
-                >
-            </span>
-        </el-dialog>
     </div>
 </template>
 
@@ -139,9 +135,9 @@ export default {
             updateResearch({
                 id: row.id,
                 status: row.status
-            }).then(res => {
+            }).then(() => {
                 Message({
-                    message: res.message,
+                    message: "更新成功",
                     type: "success",
                     duration: 1000,
                     offset: 200
@@ -187,22 +183,31 @@ export default {
             });
             window.open(href, "_blank");
         },
-        deleteDialog: function(row) {
-            this.researchId = row.id;
-            this.dialogVisible = true;
-        },
         // 删除调研
-        deleteResearch: function() {
-            deleteResearch(this.researchId).then(res => {
-                Message({
-                    message: res.message,
-                    type: "success",
-                    duration: 1000,
-                    offset: 200
+        deleteResearch: function(row) {
+            this.$confirm("确认删除?", "警告", {
+                confirmButtonText: "确认",
+                cancelButtonText: "取消",
+                type: "warning"
+            })
+                .then(async () => {
+                    await deleteResearch(row.id);
+                    this.fetchData();
+                    this.$message.success("成功");
+                })
+                .catch(err => {
+                    console.error(err);
                 });
-                this.dialogVisible = false;
-                this.fetchData();
-            });
+            // deleteResearch(this.researchId).then(res => {
+            //     Message({
+            //         message: res.message,
+            //         type: "success",
+            //         duration: 1000,
+            //         offset: 200
+            //     });
+            //     this.dialogVisible = false;
+            //     this.fetchData();
+            // });
         },
         handleSizeChange(val) {
             this.listQuery.size = val;

@@ -2,18 +2,41 @@
 
 ## About The Project
 
-> Dynamic form, survey questionnaire frontend system. Back-end repo: 
+> Dynamic form, survey questionnaire frontend system. Back-end repo: [research_sys]([Pandalzy/research_sys: Dynamic form, survey questionnaire backend system. 动态表单调研问卷后端 (github.com)](https://github.com/Pandalzy/research_sys))
 
--   [x] Create custom research
--   [x] Update research info
--   [x] Download research data
--   [x] Delete research
+### Work list
 
-<img src="./assets/create.png" />
+-   [x] RBAC user manage
+    -   [x] CURD user, role, permission
+    -   [x] User avatar update
+    -   [x] Simple password modification
+    -   [x] Authorized routing and menu
+    -   [ ] Custom user reset password
+    -   [ ] Customize the password for adding users
+-   [x] Research manage
+    -   [x] Create custom research
+    -   [x] Update research info
+    -   [x] Download research data
+    -   [x] Delete research
+    -   [ ] Research data analysis
+    -   [ ] Research data view
+    -   [ ] Limit the number of fills
+-   [ ] Logs manage
+-   [ ] More
 
-<img src="./assets/list.png" />
+### RBAC manage
 
-<img src="./assets/preview.png" width=400/>
+<img src="./assets/user.png" />
+
+<img src="./assets/role.png" />
+
+<img src="./assets/permission.png"/>
+
+### Research manage
+
+<img src="./assets/research_create.png" />
+
+<img src="./assets/reaserch_list.png" />
 
 ### Built With
 

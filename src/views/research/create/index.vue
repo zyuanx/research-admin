@@ -2,7 +2,10 @@
     <el-row>
         <!-- 左侧控件选择区 -->
         <el-col :span="6">
-            <el-card shadow="hover" style="margin:5px;">
+            <el-card style="margin:5px;">
+                <div slot="header">
+                    <span>组件列表</span>
+                </div>
                 <!-- 空间排布 -->
                 <div class="btns-flex">
                     <div class="btns-item">
@@ -106,6 +109,17 @@
                     </pre>
                 </div> -->
             </el-card>
+            <!-- <el-card style="margin:5px;">
+                <div slot="header" class="clearfix">
+                    <span>卡片名称</span>
+                    <el-button style="float: right; padding: 3px 0" type="text"
+                        >操作按钮</el-button
+                    >
+                </div>
+                <div v-for="o in 4" :key="o" class="text item">
+                    {{ "列表内容 " + o }}
+                </div>
+            </el-card> -->
         </el-col>
         <!-- 中间问卷展示区域 -->
         <el-col :span="10">
@@ -199,8 +213,6 @@
                                 <el-switch
                                     v-else-if="item.factor === 'switch'"
                                     v-model="research.fieldsValue[item.fieldId]"
-                                    active-color="#13ce66"
-                                    inactive-color="#DCDFE6"
                                     :active-value="item.activeValue"
                                     :inactive-value="item.inactiveValue"
                                     :disabled="editIndex !== index"
@@ -274,7 +286,7 @@
         <el-col :span="8">
             <el-card shadow="hover" style="margin:5px;">
                 <el-tabs type="card" v-model="activeTabName">
-                    <el-tab-pane label="控件属性" name="controlProperties">
+                    <el-tab-pane label="组件属性" name="controlProperties">
                         <el-form
                             v-if="editIndex !== null"
                             label-width="80px"
@@ -459,7 +471,7 @@
                             </div>
                         </el-form>
                     </el-tab-pane>
-                    <el-tab-pane label="基本设置" name="basicSettings">
+                    <el-tab-pane label="调研全局设置" name="basicSettings">
                         <el-form
                             size="small"
                             :model="research"

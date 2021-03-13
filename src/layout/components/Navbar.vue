@@ -10,14 +10,26 @@
 
         <div class="right-menu">
             <el-dropdown class="avatar-container" trigger="click">
-                <div class="avatar-wrapper">
-                    <img
-                        :src="avatar + '?imageView2/1/w/80/h/80'"
-                        class="user-avatar"
-                    />
-                    <i class="el-icon-caret-bottom" />
-                </div>
+                <span class="el-dropdown-link">
+                    {{ username }}
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
                 <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                    <router-link to="/">
+                        <el-dropdown-item>
+                            Home
+                        </el-dropdown-item>
+                    </router-link>
+                    <router-link to="/">
+                        <el-dropdown-item>
+                            个人信息
+                        </el-dropdown-item>
+                    </router-link>
+                    <router-link to="/changePassword">
+                        <el-dropdown-item>
+                            修改密码
+                        </el-dropdown-item>
+                    </router-link>
                     <!-- <router-link to="/">
                         <el-dropdown-item>
                             主页
@@ -29,7 +41,7 @@
                     <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
                         <el-dropdown-item>Docs</el-dropdown-item>
                     </a> -->
-                    <el-dropdown-item @click.native="logout">
+                    <el-dropdown-item divided @click.native="logout">
                         <span style="display:block;">退出登录</span>
                     </el-dropdown-item>
                 </el-dropdown-menu>
@@ -49,7 +61,7 @@ export default {
         Hamburger
     },
     computed: {
-        ...mapGetters(["sidebar", "avatar"])
+        ...mapGetters(["sidebar", "username"])
     },
     methods: {
         toggleSideBar() {
@@ -118,22 +130,10 @@ export default {
         .avatar-container {
             margin-right: 30px;
 
-            .avatar-wrapper {
-                margin-top: 5px;
-                position: relative;
-
-                .user-avatar {
-                    cursor: pointer;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                }
-
-                .el-icon-caret-bottom {
-                    cursor: pointer;
-                    position: absolute;
-                    right: -20px;
-                    top: 25px;
+            .el-dropdown-link {
+                cursor: pointer;
+                color: #409eff;
+                .el-icon-arrow-down {
                     font-size: 12px;
                 }
             }
