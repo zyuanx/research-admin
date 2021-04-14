@@ -131,37 +131,6 @@ export const asyncRoutes = [{
         }
     },
     {
-        path: "/sale",
-        component: Layout,
-        redirect: "/sale/customer",
-        name: "销售管理",
-        meta: {
-            title: "销售管理",
-            icon: "el-icon-s-shop",
-            roles: ["edit"]
-        },
-        children: [{
-                path: "customer",
-                name: "Customer",
-                component: () => import("@/views/sale/customer"),
-                meta: {
-                    title: "客户管理",
-                    icon: "table",
-                    roles: ["edit"]
-                }
-            },
-            {
-                path: "payment",
-                name: "Payment",
-                component: () => import("@/views/sale/payment"),
-                meta: {
-                    title: "订单管理",
-                    icon: "tree",
-                    roles: ["edit"]
-                }
-            }
-        ]
-    }, {
         path: "external-link",
         component: Layout,
         children: [{
