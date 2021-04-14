@@ -69,7 +69,6 @@ export const asyncRoutes = [{
                 meta: {
                     title: "用户管理",
                     icon: "user",
-                    // roles: ["admin"]
                 }
             },
             {
@@ -98,14 +97,14 @@ export const asyncRoutes = [{
         redirect: "/research/create",
         name: "Research",
         meta: {
-            title: "调研问卷",
+            title: "问卷管理",
             icon: "el-icon-s-help",
             roles: ["admin"]
         },
         children: [{
                 path: "create",
                 name: "ResearchCreate",
-                component: () => import("@/views/research/create/index"),
+                component: () => import("@/views/research/create"),
                 meta: {
                     title: "创建调研",
                     icon: "form"
@@ -120,15 +119,16 @@ export const asyncRoutes = [{
                     icon: "table"
                 }
             },
+            {
+                path: "/preview/:id",
+                component: () => import("@/views/research/preview"),
+                name: "Preview",
+                hidden: true,
+                meta: {
+                    title: "调研信息",
+                }
+            },
         ]
-    }, {
-        path: "/preview/:id",
-        component: () => import("@/views/research/preview"),
-        name: "Preview",
-        hidden: true,
-        meta: {
-            title: "调研信息",
-        }
     },
     {
         path: "external-link",

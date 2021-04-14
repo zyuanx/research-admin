@@ -18,7 +18,7 @@
             <div v-for="(item, index) in research.detail" :key="index">
                 <!-- 控件元素 -->
                 <el-form-item
-                    :label="index + 1 + '、' + item.label"
+                    :label="index + 1 + '. ' + item.label"
                     :prop="item.fieldId"
                 >
                     <!--单选框-->
