@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-        <el-table :data="formData" border stripe style="width: 100%">
+        <el-table :data="tableData" size="mini" border stripe>
             <el-table-column
                 type="index"
                 label="#"
@@ -26,12 +26,11 @@
                     ></el-switch>
                 </template>
             </el-table-column>
-            <el-table-column
-                prop="created_time"
-                label="创建时间"
-                width="160"
-                align="center"
-            ></el-table-column>
+            <el-table-column label="修改时间" align="center">
+                <template slot-scope="scope">
+                    {{ scope.row.updatedAt | parseTime }}
+                </template>
+            </el-table-column>
             <el-table-column
                 label="操作"
                 fixed="right"
@@ -84,9 +83,9 @@
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="listQuery.page_index"
+            :current-page="listQuery.page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="listQuery.page_size"
+            :page-size="listQuery.size"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
         ></el-pagination>
@@ -106,7 +105,7 @@ export default {
     data() {
         return {
             listLoading: false,
-            formData: [],
+            tableData: [],
             total: 0,
             listQuery: {
                 page: 1,
@@ -123,22 +122,20 @@ export default {
         async fetchData() {
             this.listLoading = true;
             let res = await listResearch(this.listQuery);
-            this.formData = res.data.results;
-            this.total = res.data.count;
+            this.tableData = res.data.results;
+            this.total = res.data.total;
             this.listLoading = false;
         },
         // 调研状态更新
-        researchStateChange: function(row) {
-            updateResearch({
-                id: row.id,
+        async researchStateChange(row) {
+            await updateResearch(row._id, {
                 status: row.status
-            }).then(() => {
-                Message({
-                    message: "更新成功",
-                    type: "success",
-                    duration: 1000,
-                    offset: 200
-                });
+            });
+            Message({
+                message: "更新成功",
+                type: "success",
+                duration: 1000,
+                offset: 200
             });
         },
         // 调研数据导出
@@ -176,7 +173,7 @@ export default {
         previewResearch: function(row) {
             const { href } = this.$router.resolve({
                 name: "Preview",
-                params: { id: row.id }
+                params: { id: row._id }
             });
             window.open(href, "_blank");
         },
@@ -212,6 +209,7 @@ export default {
         },
         handleCurrentChange(val) {
             this.listQuery.page = val;
+            this.fetchData();
         }
     }
 };

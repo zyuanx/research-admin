@@ -32,7 +32,7 @@
             ></el-table-column>
             <el-table-column label="修改时间" align="center">
                 <template slot-scope="scope">
-                    {{ scope.row.updated_at }}
+                    {{ scope.row.updatedAt | parseTime }}
                 </template>
             </el-table-column>
             <el-table-column

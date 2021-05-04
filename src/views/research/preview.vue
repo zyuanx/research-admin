@@ -158,7 +158,7 @@ export default {
         async readResearch() {
             const id = this.$route.params.id;
             const res = await readResearch(id);
-            this.research = res.data;
+            this.research = res.data.research;
 
             if (res.data.status === 0) {
                 Message({

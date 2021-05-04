@@ -29,16 +29,16 @@
                 label="邮箱"
                 align="center"
             ></el-table-column>
-            <el-table-column label="头像" width="80" align="center">
+            <!-- <el-table-column label="头像" width="80" align="center">
                 <template slot-scope="scope">
                     <el-avatar :src="scope.row.avatar"></el-avatar>
                 </template>
+            </el-table-column> -->
+            <el-table-column label="修改时间" align="center">
+                <template slot-scope="scope">
+                    {{ scope.row.updatedAt | parseTime }}
+                </template>
             </el-table-column>
-            <el-table-column
-                prop="updated_at"
-                label="修改时间"
-                align="center"
-            ></el-table-column>
             <el-table-column
                 fixed="right"
                 align="center"
@@ -70,7 +70,15 @@
                 </template>
             </el-table-column>
         </el-table>
-
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="listQuery.page"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="listQuery.size"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+        ></el-pagination>
         <el-dialog
             :title="dialogType === 'edit' ? '用户编辑' : '用户添加'"
             :visible.sync="dialogFormVisible"
@@ -110,7 +118,9 @@
                                 :src="form.avatar"
                                 class="avatar"
                             />
-                             <div slot="tip" class="el-upload__tip">点击图片即可上传</div>
+                            <div slot="tip" class="el-upload__tip">
+                                点击图片即可上传
+                            </div>
                         </el-upload>
                         <div></div>
                     </div>
@@ -188,6 +198,11 @@ export default {
         };
         return {
             tableData: [],
+            total: 0,
+            listQuery: {
+                page: 1,
+                size: 10
+            },
             roleData: {},
             dialogFormVisible: false,
             dialogAddFormVisible: false,
@@ -226,13 +241,14 @@ export default {
         };
     },
     created() {
-        this.getUserData();
+        this.fetchData();
         this.getRoleData();
     },
     methods: {
-        async getUserData() {
+        async fetchData() {
             const res = await getUser();
             this.tableData = res.data.results;
+            this.total = res.data.total;
         },
         async getRoleData() {
             const res = await getRole();
@@ -330,6 +346,14 @@ export default {
             form.append("avatar", file);
             const res = await updateUserAvatar(id, form);
             this.form.avatar = res.data.avatar;
+        },
+        handleSizeChange(val) {
+            this.listQuery.size = val;
+            this.fetchData();
+        },
+        handleCurrentChange(val) {
+            this.listQuery.page = val;
+            this.fetchData();
         }
     }
 };

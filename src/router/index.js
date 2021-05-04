@@ -63,7 +63,7 @@ export const asyncRoutes = [{
             roles: ["admin"]
         }, // 页面需要的权限
         children: [{
-                path: "user",
+                path: "/user",
                 name: "User",
                 component: () => import("@/views/system/user"),
                 meta: {
@@ -72,7 +72,7 @@ export const asyncRoutes = [{
                 }
             },
             {
-                path: "role",
+                path: "/role",
                 name: "Role",
                 component: () => import("@/views/system/role"),
                 meta: {
@@ -81,7 +81,7 @@ export const asyncRoutes = [{
                 }
             },
             {
-                path: "permission",
+                path: "/permission",
                 name: "Permisson",
                 component: () => import("@/views/system/permisson"),
                 meta: {
@@ -102,7 +102,7 @@ export const asyncRoutes = [{
             roles: ["admin"]
         },
         children: [{
-                path: "create",
+                path: "/create",
                 name: "ResearchCreate",
                 component: () => import("@/views/research/create"),
                 meta: {
@@ -111,7 +111,7 @@ export const asyncRoutes = [{
                 }
             },
             {
-                path: "show",
+                path: "/show",
                 name: "ResearchShow",
                 component: () => import("@/views/research/list/index"),
                 meta: {

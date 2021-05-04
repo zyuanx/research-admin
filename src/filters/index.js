@@ -1,10 +1,8 @@
-// import parseTime, formatTime and set to filter
-export {
-    parseTime,
-    formatTime
+export function parseTime(date) {
+    var moment = require("moment");
+    let Ndate = moment(date).format("YYYY-MM-DD HH:mm:ss")
+    return Ndate
 }
-from "@/utils"
-
 /**
  * Show plural label if time is plural number
  * @param {number} time

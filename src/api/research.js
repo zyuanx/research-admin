@@ -1,13 +1,6 @@
 import request from "@/utils/request"
 
-// 创建调研
-export function createResearch(data) {
-    return request({
-        url: "/api/research",
-        method: "post",
-        data: data
-    })
-}
+
 
 // 获取调研列表
 export function listResearch(query) {
@@ -17,13 +10,20 @@ export function listResearch(query) {
         params: query
     })
 }
-
-// 更新调研信息
-export function updateResearch(data) {
+// 创建调研
+export function createResearch(data) {
     return request({
-        url: `/api/research/${data.id}`,
-        method: "patch",
+        url: "/api/research",
+        method: "post",
         data: data
+    })
+}
+// 更新调研信息
+export function updateResearch(id, data) {
+    return request({
+        url: `/api/research/${id}`,
+        method: "put",
+        data
     })
 }
 

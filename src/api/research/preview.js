@@ -3,7 +3,7 @@ import request from "@/utils/request"
 // 获取调研问卷
 export function readResearch(id) {
     return request({
-        url: `/api/research/list/${id}`,
+        url: `/api/research/${id}`,
         method: "get"
     })
 }
