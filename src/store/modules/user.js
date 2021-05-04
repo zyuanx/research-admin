@@ -78,13 +78,13 @@ const actions = {
                 if (!data) {
                     reject("Verification failed, please Login again.")
                 }
-
+                data.user.roles = data.user.roles.map(x => x.title)
                 const {
                     username,
                     nickname,
                     avatar,
                     roles,
-                } = data
+                } = data.user
                 // roles must be a non-empty array
                 if (!roles || roles.length <= 0) {
                     // reject("getInfo: roles must be a non-null array!")
@@ -94,7 +94,7 @@ const actions = {
                 commit("SET_NICKNAME", nickname)
                 commit("SET_AVATAR", avatar)
                 commit("SET_ROLES", roles)
-                resolve(data)
+                resolve(data.user)
             }).catch(error => {
                 reject(error)
             })
@@ -142,7 +142,6 @@ const actions = {
         const {
             roles
         } = await dispatch("getInfo")
-
         resetRouter()
 
         // generate accessible routes map based on roles

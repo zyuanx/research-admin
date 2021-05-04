@@ -13,11 +13,13 @@ import router from "./router"
 
 import "@/icons" // icon
 import "@/permission" // permission control
-
+import * as filters from "./filters" // global filters
 Vue.use(ElementUI, {
     size: "medium"
 })
-
+Object.keys(filters).forEach(key => {
+    Vue.filter(key, filters[key])
+})
 Vue.config.productionTip = false
 
 new Vue({

@@ -3,7 +3,7 @@ import request from "@/utils/request"
 // 创建调研
 export function createResearch(data) {
     return request({
-        url: "/api/research/list/",
+        url: "/api/research",
         method: "post",
         data: data
     })
@@ -12,7 +12,7 @@ export function createResearch(data) {
 // 获取调研列表
 export function listResearch(query) {
     return request({
-        url: "/api/research/list/",
+        url: "/api/research",
         method: "get",
         params: query
     })
@@ -21,7 +21,7 @@ export function listResearch(query) {
 // 更新调研信息
 export function updateResearch(data) {
     return request({
-        url: `/api/research/list/${data.id}/`,
+        url: `/api/research/${data.id}`,
         method: "patch",
         data: data
     })
@@ -30,7 +30,7 @@ export function updateResearch(data) {
 // 获取调研问卷
 export function readResearch(id) {
     return request({
-        url: `/api/research/list/${id}/`,
+        url: `/api/research/${id}`,
         method: "get"
     })
 }
@@ -38,7 +38,7 @@ export function readResearch(id) {
 // 删除调研问卷
 export function deleteResearch(id) {
     return request({
-        url: "/api/research/list/" + id + "/",
+        url: `/api/research/${id}`,
         method: "delete"
     })
 }

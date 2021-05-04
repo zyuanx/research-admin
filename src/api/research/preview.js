@@ -3,7 +3,7 @@ import request from "@/utils/request"
 // 获取调研问卷
 export function readResearch(id) {
     return request({
-        url: `/api/research/list/${id}/`,
+        url: `/api/research/list/${id}`,
         method: "get"
     })
 }
@@ -11,7 +11,7 @@ export function readResearch(id) {
 // 提交调研数据
 export function createResearchData(data) {
     return request({
-        url: "/api/research/data/",
+        url: "/api/research/data",
         method: "post",
         data: data
     })

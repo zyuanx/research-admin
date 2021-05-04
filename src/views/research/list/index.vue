@@ -120,15 +120,12 @@ export default {
         this.fetchData();
     },
     methods: {
-        fetchData() {
+        async fetchData() {
             this.listLoading = true;
-            const that = this;
-            listResearch(this.listQuery).then(response => {
-                that.formData = response.data.results;
-                that.listQuery.page = response.data.page;
-                that.total = response.data.count;
-                that.listLoading = false;
-            });
+            let res = await listResearch(this.listQuery);
+            this.formData = res.data.results;
+            this.total = res.data.count;
+            this.listLoading = false;
         },
         // 调研状态更新
         researchStateChange: function(row) {

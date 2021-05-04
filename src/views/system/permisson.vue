@@ -3,27 +3,30 @@
         <el-button type="primary" icon="el-icon-plus" @click="addPermission"
             >添加</el-button
         >
-        <el-table :data="tableTreeData" size="mini" border stripe row-key="id">
+        <el-table :data="tableData" size="mini" border stripe>
             <el-table-column
                 type="index"
                 label="序号"
                 width="50"
                 align="center"
             ></el-table-column>
-            <el-table-column prop="title" label="名称" width="180">
-            </el-table-column>
-            <el-table-column label="类型" align="center">
-                <template slot-scope="scope">
-                    {{ menuItems[scope.row.menu] }}
-                </template>
-            </el-table-column>
+            <el-table-column
+                prop="path"
+                label="路径"
+                align="center"
+            ></el-table-column>
+            <el-table-column
+                prop="desc"
+                label="描述"
+                align="center"
+            ></el-table-column>
             <el-table-column
                 prop="method"
                 label="方法"
                 align="center"
             ></el-table-column>
             <el-table-column
-                prop="update_time"
+                prop="updated_at"
                 label="修改时间"
                 align="center"
             ></el-table-column>
@@ -101,12 +104,12 @@
 
 <script>
 import {
-    getPermission,
+    listPermission,
     updatePermission,
     addPermission,
     deletePermission
 } from "@/api/system/permisson";
-import { genTree } from "@/utils";
+// import { genTree } from "@/utils";
 
 // import the component
 import Treeselect from "@riophae/vue-treeselect";
@@ -118,6 +121,7 @@ export default {
     data() {
         return {
             menuItems: ["目录", "菜单", "接口"],
+            tableData: [],
             tableTreeData: [],
             permissonTreeData: [],
             dialogFormVisible: false,
@@ -149,14 +153,15 @@ export default {
         };
     },
     created() {
-        this.getPermissionData();
+        this.fetchData();
     },
     methods: {
         // 获取角色数据
-        async getPermissionData() {
-            const res = await getPermission();
-            this.tableTreeData = genTree(res.data);
-            this.permissonTreeData = this.tableTreeData;
+        async fetchData() {
+            const res = await listPermission();
+            this.tableData = res.data.results;
+            // this.tableTreeData = genTree(res.data);
+            // this.permissonTreeData = this.tableTreeData;
         },
         // 编辑权限
         editPermission(row) {

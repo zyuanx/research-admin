@@ -35,7 +35,7 @@
                 </template>
             </el-table-column>
             <el-table-column
-                prop="update_time"
+                prop="updated_at"
                 label="修改时间"
                 align="center"
             ></el-table-column>

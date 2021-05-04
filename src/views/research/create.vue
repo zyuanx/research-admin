@@ -1,5 +1,5 @@
 <template>
-    <el-row>
+    <el-row style="min-width:1000px;">
         <!-- 左侧控件选择区 -->
         <el-col :span="6">
             <control-selection @factor-add="factorAdd"></control-selection>

@@ -9,7 +9,7 @@
             border
             stripe
             @selection-change="handleSelectionChange"
-            >>
+        >
             <el-table-column type="selection" width="50" align="center">
             </el-table-column>
             <el-table-column
@@ -30,11 +30,11 @@
                 label="描述"
                 align="center"
             ></el-table-column>
-            <el-table-column
-                prop="update_time"
-                label="修改时间"
-                align="center"
-            ></el-table-column>
+            <el-table-column label="修改时间" align="center">
+                <template slot-scope="scope">
+                    {{ scope.row.updated_at }}
+                </template>
+            </el-table-column>
             <el-table-column
                 fixed="right"
                 align="center"
@@ -90,9 +90,7 @@
                     </el-tree>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="drawer = false"
-                        >取消</el-button
-                    >
+                    <el-button @click="drawer = false">取消</el-button>
                     <el-button type="primary" @click="submitForm('ruleForm')">
                         确定</el-button
                     >
@@ -130,13 +128,13 @@ export default {
 
     created() {
         this.getRoleData();
-        this.getPermissionData();
+        // this.getPermissionData();
     },
     methods: {
         // 获取角色数据
         async getRoleData() {
             const res = await getRole();
-            this.tableData = res.data;
+            this.tableData = res.data.results;
         },
         async getPermissionData() {
             const res = await getPermission();
