@@ -113,7 +113,7 @@ export const asyncRoutes = [{
             {
                 path: "/show",
                 name: "ResearchShow",
-                component: () => import("@/views/research/list/index"),
+                component: () => import("@/views/research/show"),
                 meta: {
                     title: "调研列表",
                     icon: "table"

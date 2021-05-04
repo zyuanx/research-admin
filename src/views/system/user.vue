@@ -102,7 +102,7 @@
                 <el-form-item label="邮箱">
                     <el-input v-model="form.email"></el-input>
                 </el-form-item>
-                <el-form-item label="头像" v-if="dialogType != 'add'">
+                <!-- <el-form-item label="头像" v-if="dialogType != 'add'">
                     <div class="avatar-item">
                         <el-upload
                             class="avatar-uploader"
@@ -124,7 +124,7 @@
                         </el-upload>
                         <div></div>
                     </div>
-                </el-form-item>
+                </el-form-item> -->
                 <!-- <el-form-item
                     v-if="dialogType === 'add'"
                     label="密码"

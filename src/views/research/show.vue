@@ -137,6 +137,7 @@ export default {
                 duration: 1000,
                 offset: 200
             });
+            this.fetchData()
         },
         // 调研数据导出
         exportResearchData: function(row) {
@@ -171,11 +172,12 @@ export default {
         },
         // 调研预览
         previewResearch: function(row) {
-            const { href } = this.$router.resolve({
-                name: "Preview",
-                params: { id: row._id }
-            });
-            window.open(href, "_blank");
+            this.$router.push({ name: "Preview", params: { id: row._id } });
+            // const { href } = this.$router.resolve({
+            //     name: "Preview",
+            //     params: { id: row._id }
+            // });
+            // window.open(href, "_blank");
         },
         // 删除调研
         deleteResearch: function(row) {

@@ -2,9 +2,11 @@
 
 ## About The Project
 
-> Dynamic form, survey questionnaire frontend system. Back-end repo: [research_sys](https://github.com/Pandalzy/research_sys)
+> Dynamic form, survey questionnaire frontend system. Back-end repo: [gin-research-sys](https://github.com/Pandalzy/gin-research-sys)
 
 ### Work list
+
+> The new version is not finished
 
 -   [x] RBAC user manage
     -   [x] CURD user, role, permission
@@ -43,9 +45,6 @@
 -   [vue](https://vuejs.org/)
 -   [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
-## Related Project
-
--   [research_sys](https://github.com/Pandalzy/research_sys)
 
 ## Getting Started
 
@@ -74,7 +73,7 @@ npm install
 Edit `src/util/request.js` file and modify base api.
 
 ```python
-baseURL: "http://127.0.0.1:8000/api/"
+baseURL: "http://127.0.0.1:8080/api/"
 ```
 
 ### Run

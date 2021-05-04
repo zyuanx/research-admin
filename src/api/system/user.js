@@ -11,7 +11,7 @@ export function getUser() {
 export function updateUser(id, data) {
     return request({
         url: `/api/user/${id}`,
-        method: "patch",
+        method: "put",
         data
     })
 }
