@@ -1,10 +1,18 @@
 import request from "@/utils/request"
 
 
-export function getUser() {
+export function listUser() {
     return request({
         url: "/api/user",
         method: "get",
+    })
+}
+
+export function createUser(data) {
+    return request({
+        url: "/api/user",
+        method: "post",
+        data
     })
 }
 
@@ -12,22 +20,6 @@ export function updateUser(id, data) {
     return request({
         url: `/api/user/${id}`,
         method: "put",
-        data
-    })
-}
-export function updateUserAvatar(id, data) {
-    return request({
-        url: `/api/user/${id}/update_avatar`,
-        method: "put",
-        data
-    })
-}
-
-
-export function addUser(data) {
-    return request({
-        url: "/api/user",
-        method: "post",
         data
     })
 }

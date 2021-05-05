@@ -29,11 +29,6 @@
                 label="邮箱"
                 align="center"
             ></el-table-column>
-            <!-- <el-table-column label="头像" width="80" align="center">
-                <template slot-scope="scope">
-                    <el-avatar :src="scope.row.avatar"></el-avatar>
-                </template>
-            </el-table-column> -->
             <el-table-column label="修改时间" align="center">
                 <template slot-scope="scope">
                     {{ scope.row.updatedAt | parseTime }}
@@ -96,36 +91,7 @@
                         :disabled="dialogType !== 'add'"
                     ></el-input>
                 </el-form-item>
-                <el-form-item label="昵称" prop="nickname">
-                    <el-input v-model="form.nickname"></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱">
-                    <el-input v-model="form.email"></el-input>
-                </el-form-item>
-                <!-- <el-form-item label="头像" v-if="dialogType != 'add'">
-                    <div class="avatar-item">
-                        <el-upload
-                            class="avatar-uploader"
-                            ref="upload"
-                            action=""
-                            :multiple="false"
-                            :show-file-list="false"
-                            :auto-upload="true"
-                            :http-request="updateAvatar"
-                        >
-                            <img
-                                v-if="form.avatar"
-                                :src="form.avatar"
-                                class="avatar"
-                            />
-                            <div slot="tip" class="el-upload__tip">
-                                点击图片即可上传
-                            </div>
-                        </el-upload>
-                        <div></div>
-                    </div>
-                </el-form-item> -->
-                <!-- <el-form-item
+                <el-form-item
                     v-if="dialogType === 'add'"
                     label="密码"
                     prop="password1"
@@ -146,7 +112,16 @@
                         clearable
                         show-password
                     ></el-input>
-                </el-form-item> -->
+                </el-form-item>
+                <el-form-item label="昵称">
+                    <el-input v-model="form.nickname"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="form.telephone"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input v-model="form.email"></el-input>
+                </el-form-item>
                 <el-form-item label="角色">
                     <el-select
                         v-model="form.roles"
@@ -176,12 +151,11 @@
 
 <script>
 import {
-    getUser,
+    listUser,
     updateUser,
-    addUser,
+    createUser,
     deleteUser,
-    resetPassword,
-    updateUserAvatar
+    resetPassword
 } from "@/api/system/user";
 import { getRole } from "@/api/system/role";
 export default {
@@ -216,13 +190,6 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                nickname: [
-                    {
-                        required: true,
-                        message: "请输入昵称",
-                        trigger: "blur"
-                    }
-                ],
                 password1: [
                     {
                         required: true,
@@ -246,7 +213,7 @@ export default {
     },
     methods: {
         async fetchData() {
-            const res = await getUser();
+            const res = await listUser();
             this.tableData = res.data.results;
             this.total = res.data.total;
         },
@@ -278,6 +245,7 @@ export default {
             if (this.dialogType === "edit") {
                 let payload = {
                     nickname: this.form.nickname,
+                    telephone: this.form.telephone,
                     email: this.form.email,
                     roles: this.form.roles
                 };
@@ -286,16 +254,17 @@ export default {
             } else {
                 let payload = {
                     username: this.form.username,
+                    password1: this.form.password1,
+                    password2: this.form.password2,
                     nickname: this.form.nickname,
+                    telephone: this.form.telephone,
                     email: this.form.email,
-                    // password1: this.form.password1,
-                    // password2: this.form.password2,
                     roles: this.form.roles
                 };
-                await addUser(payload);
+                await createUser(payload);
                 this.$message.success("添加成功");
             }
-            this.getUserData();
+            this.fetchData();
             this.dialogFormVisible = false;
         },
         deleteUser(row) {
@@ -306,7 +275,7 @@ export default {
             })
                 .then(async () => {
                     await deleteUser(row.id);
-                    this.getUserData();
+                    this.fetchData();
                     this.$message.success("成功");
                 })
                 .catch(err => {
@@ -334,18 +303,6 @@ export default {
         closeDialog() {
             this.$refs["ruleForm"].resetFields();
             this.dialogFormVisible = false;
-        },
-        submitUpload() {
-            this.$refs.upload.submit();
-        },
-        async updateAvatar(param) {
-            console.log(param);
-            let id = this.form.id;
-            let file = param.file;
-            let form = new FormData();
-            form.append("avatar", file);
-            const res = await updateUserAvatar(id, form);
-            this.form.avatar = res.data.avatar;
         },
         handleSizeChange(val) {
             this.listQuery.size = val;

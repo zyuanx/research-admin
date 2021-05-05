@@ -11,6 +11,11 @@
                 align="center"
             ></el-table-column>
             <el-table-column
+                prop="group"
+                label="组"
+                align="center"
+            ></el-table-column>
+            <el-table-column
                 prop="path"
                 label="路径"
                 align="center"
@@ -64,32 +69,28 @@
                 ref="ruleForm"
                 label-width="80px"
             >
-                <el-form-item label="权限名" prop="title">
-                    <el-input
-                        v-model="form.title"
-                        autocomplete="off"
-                    ></el-input>
+                <el-form-item label="组" prop="group">
+                    <el-input v-model="form.group"></el-input>
                 </el-form-item>
-                <el-form-item label="类型" prop="menu">
-                    <el-radio-group v-model="form.menu">
-                        <el-radio :label="0">目录</el-radio>
-                        <el-radio :label="1">菜单</el-radio>
-                        <el-radio :label="2">接口</el-radio>
-                    </el-radio-group>
+                <el-form-item label="路径" prop="path">
+                    <el-input v-model="form.path"></el-input>
+                </el-form-item>
+                <el-form-item label="描述">
+                    <el-input v-model="form.desc"></el-input>
                 </el-form-item>
                 <el-form-item label="方法" prop="method">
-                    <el-input
+                    <el-select
                         v-model="form.method"
-                        autocomplete="off"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="父级" prop="parent">
-                    <treeselect
-                        v-model="form.parent"
-                        :multiple="false"
-                        :options="permissonTreeData"
-                        placeholder="父级"
-                    />
+                        clearable
+                        placeholder="请选择"
+                    >
+                        <el-option label="GET" value="GET"> </el-option>
+                        <el-option label="POST" value="POST">POST</el-option>
+                        <el-option label="PUT" value="PUT">PUT</el-option>
+                        <el-option label="DELETE" value="DELETE"
+                            >DELETE</el-option
+                        >
+                    </el-select>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -109,15 +110,10 @@ import {
     addPermission,
     deletePermission
 } from "@/api/system/permisson";
-// import { genTree } from "@/utils";
 
-// import the component
-import Treeselect from "@riophae/vue-treeselect";
-// import the styles
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
     name: "Permission",
-    components: { Treeselect },
     data() {
         return {
             menuItems: ["目录", "菜单", "接口"],
@@ -128,25 +124,25 @@ export default {
             dialogType: "edit",
             form: {},
             rules: {
-                title: [
+                group: [
                     {
                         required: true,
-                        message: "请输入权限名称",
+                        message: "请输入组名称",
                         trigger: "blur"
                     }
                 ],
-                menu: [
+                path: [
                     {
                         required: true,
-                        message: "请选择类型",
+                        message: "请输入路径",
                         trigger: "change"
                     }
                 ],
                 method: [
                     {
                         required: true,
-                        message: "请输入方法",
-                        trigger: "blur"
+                        message: "请选择方法",
+                        trigger: "change"
                     }
                 ]
             }
@@ -160,8 +156,6 @@ export default {
         async fetchData() {
             const res = await listPermission();
             this.tableData = res.data.results;
-            // this.tableTreeData = genTree(res.data);
-            // this.permissonTreeData = this.tableTreeData;
         },
         // 编辑权限
         editPermission(row) {
@@ -190,10 +184,10 @@ export default {
         }, // 添加、更新权限
         async confirmEdit() {
             let payload = {
-                menu: this.form.menu,
-                method: this.form.method,
-                parent: this.form.parent ? this.form.parent : null,
-                title: this.form.title
+                group: this.form.group,
+                path: this.form.path,
+                desc: this.form.desc,
+                method: this.form.method
             };
             if (this.dialogType === "edit") {
                 await updatePermission(this.form.id, payload);

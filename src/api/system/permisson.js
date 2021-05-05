@@ -13,13 +13,6 @@ export function retrievePermission(id) {
         method: "get",
     })
 }
-export function updatePermission(id, data) {
-    return request({
-        url: `/api/permission/${id}`,
-        method: "patch",
-        data
-    })
-}
 
 export function createPermission(data) {
     return request({
@@ -28,6 +21,15 @@ export function createPermission(data) {
         data
     })
 }
+export function updatePermission(id, data) {
+    return request({
+        url: `/api/permission/${id}`,
+        method: "put",
+        data
+    })
+}
+
+
 
 export function destroyPermission(id) {
     return request({
