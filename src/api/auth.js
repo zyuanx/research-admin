@@ -24,8 +24,8 @@ export function logout() {
 
 export function changePassword(data) {
     return request({
-        url: "/api/user/change_password",
-        method: "post",
+        url: "/api/user/change/password",
+        method: "put",
         data
     })
 }

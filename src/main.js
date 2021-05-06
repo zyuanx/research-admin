@@ -14,9 +14,7 @@ import router from "./router"
 import "@/icons" // icon
 import "@/permission" // permission control
 import * as filters from "./filters" // global filters
-Vue.use(ElementUI, {
-    size: "medium"
-})
+Vue.use(ElementUI)
 Object.keys(filters).forEach(key => {
     Vue.filter(key, filters[key])
 })

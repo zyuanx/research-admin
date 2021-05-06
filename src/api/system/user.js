@@ -31,9 +31,10 @@ export function deleteUser(id) {
     })
 }
 
-export function resetPassword(id) {
+export function resetPassword(id, data) {
     return request({
-        url: `/api/user/${id}/reset_password`,
-        method: "post",
+        url: `/api/user/reset/password/${id}`,
+        method: "put",
+        data
     })
 }

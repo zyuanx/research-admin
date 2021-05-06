@@ -90,7 +90,12 @@ export default {
             });
         },
         async confirmEdit() {
-            await changePassword(this.form);
+            let payload = {
+                password: this.form.old_password,
+                password1: this.form.new_password1,
+                password2: this.form.new_password2
+            };
+            await changePassword(payload);
             this.$message.success("密码修改成功，请重新登陆");
             await this.$store.dispatch("user/logout");
             this.$router.push(`/login`);

@@ -289,7 +289,7 @@ export default {
                 type: "warning"
             })
                 .then(async () => {
-                    await resetPassword(row.id);
+                    await resetPassword(row.id, {});
                     this.$message.success("密码已被重置为：123456");
                 })
                 .catch(err => {
