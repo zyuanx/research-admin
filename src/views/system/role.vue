@@ -101,9 +101,13 @@
 </template>
 
 <script>
-import { getRole, updateRole, addRole, deleteRole } from "@/api/system/role";
-import { getPermission } from "@/api/system/permisson";
-import { genTree } from "@/utils";
+import {
+    listRole,
+    createRole,
+    updateRole,
+    deleteRole
+} from "@/api/system/role";
+import { listPermission } from "@/api/system/permisson";
 export default {
     name: "Role",
     data() {
@@ -128,17 +132,37 @@ export default {
 
     created() {
         this.getRoleData();
-        // this.getPermissionData();
+        this.getPermissionData();
     },
     methods: {
         // 获取角色数据
         async getRoleData() {
-            const res = await getRole();
+            const res = await listRole();
             this.tableData = res.data.results;
         },
+        toTree(data) {
+            const map = {};
+            data.forEach(item => {
+                item.label = item.desc;
+                const parent = map[item.group];
+                if (parent) {
+                    map[item.group].children.push(item);
+                } else {
+                    map[item.group] = {
+                        label: item.group,
+                        children: [item]
+                    };
+                }
+            });
+            const res = [];
+            Object.keys(map).forEach(function(key) {
+                res.push(map[key]);
+            });
+            return res;
+        },
         async getPermissionData() {
-            const res = await getPermission();
-            this.permissonTreeData = genTree(res.data);
+            const res = await listPermission();
+            this.permissonTreeData = this.toTree(res.data.results);
         },
         // 编辑角色
         editRole(row) {
@@ -146,11 +170,8 @@ export default {
             this.drawer = true;
             this.drawerType = "edit";
             this.$nextTick(() => {
-                this.$refs.permRef.setCheckedKeys(row.permissions);
-                // this.$refs.permRef.setCheckedKeys(
-                //     [8, 9, 10, 11, 12, 14, 15, 1],
-                //     true
-                // );
+                // this.$refs.permRef.setCheckedKeys(row.permissions);
+                this.$refs.permRef.setCheckedKeys([1, 3, 4], true);
             });
         },
         // 添加角色
@@ -186,7 +207,7 @@ export default {
                 await updateRole(this.form.id, payload);
                 this.$message.success("更新成功");
             } else {
-                await addRole(payload);
+                await createRole(payload);
                 this.$message.success("添加成功");
             }
             this.getRoleData();

@@ -30,6 +30,11 @@
                 label="方法"
                 align="center"
             ></el-table-column>
+            <el-table-column
+                prop="index"
+                label="次序"
+                align="center"
+            ></el-table-column>
             <el-table-column label="修改时间" align="center">
                 <template slot-scope="scope">
                     {{ scope.row.updatedAt | parseTime }}
@@ -59,9 +64,19 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog
-            :title="dialogType === 'edit' ? '权限编辑' : '权限添加'"
-            :visible.sync="dialogFormVisible"
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="listQuery.page"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="listQuery.size"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+        ></el-pagination>
+        <el-drawer
+            :title="drawerType === 'edit' ? '权限编辑' : '权限添加'"
+            :visible.sync="drawer"
+            size="50%"
         >
             <el-form
                 :model="form"
@@ -92,14 +107,22 @@
                         >
                     </el-select>
                 </el-form-item>
+                <el-form-item label="次序" prop="index">
+                    <el-input-number
+                        v-model="form.index"
+                        :min="1"
+                        :max="10"
+                    ></el-input-number>
+                    越大越靠后
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="drawer = false">取消</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">
+                        确定</el-button
+                    >
+                </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取消</el-button>
-                <el-button type="primary" @click="submitForm('ruleForm')"
-                    >确定</el-button
-                >
-            </div>
-        </el-dialog>
+        </el-drawer>
     </div>
 </template>
 
@@ -107,7 +130,7 @@
 import {
     listPermission,
     updatePermission,
-    addPermission,
+    createPermission,
     deletePermission
 } from "@/api/system/permisson";
 
@@ -116,12 +139,14 @@ export default {
     name: "Permission",
     data() {
         return {
-            menuItems: ["目录", "菜单", "接口"],
             tableData: [],
-            tableTreeData: [],
-            permissonTreeData: [],
-            dialogFormVisible: false,
-            dialogType: "edit",
+            total: 0,
+            listQuery: {
+                page: 1,
+                size: 10
+            },
+            drawer: false,
+            drawerType: "edit",
             form: {},
             rules: {
                 group: [
@@ -144,6 +169,13 @@ export default {
                         message: "请选择方法",
                         trigger: "change"
                     }
+                ],
+                index: [
+                    {
+                        required: true,
+                        message: "请选择次序",
+                        trigger: "change"
+                    }
                 ]
             }
         };
@@ -156,20 +188,21 @@ export default {
         async fetchData() {
             const res = await listPermission();
             this.tableData = res.data.results;
+            this.total = res.data.total;
         },
         // 编辑权限
         editPermission(row) {
             this.form = row;
-            this.dialogType = "edit";
-            this.dialogFormVisible = true;
+            this.drawerType = "edit";
+            this.drawer = true;
         },
         // 添加权限
         addPermission() {
             this.form = {
                 menu: 0
             };
-            this.dialogType = "add";
-            this.dialogFormVisible = true;
+            this.drawerType = "add";
+            this.drawer = true;
         },
         // 表单提交
         submitForm(formName) {
@@ -187,17 +220,18 @@ export default {
                 group: this.form.group,
                 path: this.form.path,
                 desc: this.form.desc,
-                method: this.form.method
+                method: this.form.method,
+                index: this.form.index
             };
-            if (this.dialogType === "edit") {
+            if (this.drawerType === "edit") {
                 await updatePermission(this.form.id, payload);
                 this.$message.success("更新成功");
             } else {
-                await addPermission(payload);
+                await createPermission(payload);
                 this.$message.success("添加成功");
             }
-            this.getPermissionData();
-            this.dialogFormVisible = false;
+            this.fetchData();
+            this.drawer = false;
         },
         // 删除角色
         deletePermission(row) {
@@ -214,6 +248,14 @@ export default {
                 .catch(err => {
                     console.error(err);
                 });
+        },
+        handleSizeChange(val) {
+            this.listQuery.size = val;
+            this.fetchData();
+        },
+        handleCurrentChange(val) {
+            this.listQuery.page = val;
+            this.fetchData();
         }
     }
 };

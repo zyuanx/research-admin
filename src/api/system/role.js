@@ -1,9 +1,17 @@
 import request from "@/utils/request";
 
-export function getRole() {
+export function listRole() {
     return request({
         url: "/api/role",
         method: "get",
+    })
+}
+
+export function createRole(data) {
+    return request({
+        url: "/api/role",
+        method: "post",
+        data
     })
 }
 
@@ -15,13 +23,7 @@ export function updateRole(id, data) {
     })
 }
 
-export function addRole(data) {
-    return request({
-        url: "/api/role",
-        method: "post",
-        data
-    })
-}
+
 
 export function deleteRole(id) {
     return request({

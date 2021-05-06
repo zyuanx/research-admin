@@ -74,16 +74,17 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
         ></el-pagination>
-        <el-dialog
-            :title="dialogType === 'edit' ? '用户编辑' : '用户添加'"
-            :visible.sync="dialogFormVisible"
-            :before-close="handleClose"
+        <el-drawer
+            :title="drawerType === 'edit' ? '用户编辑' : '用户添加'"
+            :visible.sync="drawer"
+            size="50%"
         >
             <el-form
                 :model="form"
                 :rules="rules"
                 ref="ruleForm"
                 label-width="80px"
+                style="margin:20px;"
             >
                 <el-form-item label="用户名" prop="username">
                     <el-input
@@ -137,15 +138,14 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item>
+                    <el-button @click="drawer = false">取消</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">
+                        确定</el-button
+                    >
+                </el-form-item>
             </el-form>
-
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="closeDialog">取消</el-button>
-                <el-button type="primary" @click="submitForm('ruleForm')"
-                    >确定</el-button
-                >
-            </div>
-        </el-dialog>
+        </el-drawer>
     </div>
 </template>
 
@@ -164,7 +164,7 @@ export default {
         let validatePassword2 = (rule, value, callback) => {
             if (value === "") {
                 callback(new Error("请再次输入密码"));
-            } else if (value !== this.form.password2) {
+            } else if (value !== this.form.password1) {
                 callback(new Error("两次输入密码不一致!"));
             } else {
                 callback();
@@ -178,9 +178,8 @@ export default {
                 size: 10
             },
             roleData: {},
-            dialogFormVisible: false,
-            dialogAddFormVisible: false,
-            dialogType: "edit",
+            drawer: false,
+            drawerType: "edit",
             form: {},
             rules: {
                 username: [
@@ -223,13 +222,13 @@ export default {
         },
         addUser() {
             this.form = {};
-            this.dialogType = "add";
-            this.dialogFormVisible = true;
+            this.drawerType = "add";
+            this.drawer = true;
         },
         editUser(row) {
             this.form = row;
-            this.dialogType = "edit";
-            this.dialogFormVisible = true;
+            this.drawerType = "edit";
+            this.drawer = true;
         },
         submitForm(formName) {
             this.$refs[formName].validate(valid => {
@@ -242,7 +241,7 @@ export default {
             });
         },
         async confirmEdit() {
-            if (this.dialogType === "edit") {
+            if (this.drawerType === "edit") {
                 let payload = {
                     nickname: this.form.nickname,
                     telephone: this.form.telephone,
@@ -265,7 +264,7 @@ export default {
                 this.$message.success("添加成功");
             }
             this.fetchData();
-            this.dialogFormVisible = false;
+            this.drawer = false;
         },
         deleteUser(row) {
             this.$confirm("确认删除?", "警告", {
@@ -295,14 +294,6 @@ export default {
                 .catch(err => {
                     console.error(err);
                 });
-        },
-        handleClose(done) {
-            this.$refs["ruleForm"].resetFields();
-            done();
-        },
-        closeDialog() {
-            this.$refs["ruleForm"].resetFields();
-            this.dialogFormVisible = false;
         },
         handleSizeChange(val) {
             this.listQuery.size = val;
