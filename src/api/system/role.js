@@ -1,9 +1,16 @@
 import request from "@/utils/request";
 
-export function listRole() {
+export function listRole(query) {
     return request({
         url: "/api/role",
         method: "get",
+        params: query
+    })
+}
+export function retrieveRole(id) {
+    return request({
+        url: `/api/role/${id}`,
+        method: "get"
     })
 }
 

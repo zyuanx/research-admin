@@ -89,11 +89,11 @@
                 <el-form-item label="用户名" prop="username">
                     <el-input
                         v-model="form.username"
-                        :disabled="dialogType !== 'add'"
+                        :disabled="drawerType !== 'add'"
                     ></el-input>
                 </el-form-item>
                 <el-form-item
-                    v-if="dialogType === 'add'"
+                    v-if="drawerType === 'add'"
                     label="密码"
                     prop="password1"
                 >
@@ -104,7 +104,7 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item
-                    v-if="dialogType === 'add'"
+                    v-if="drawerType === 'add'"
                     label="确认密码"
                     prop="password2"
                 >
@@ -152,12 +152,13 @@
 <script>
 import {
     listUser,
-    updateUser,
+    retrieveUser,
     createUser,
+    updateUser,
     deleteUser,
     resetPassword
 } from "@/api/system/user";
-import { getRole } from "@/api/system/role";
+import { listRole } from "@/api/system/role";
 export default {
     name: "User",
     data() {
@@ -208,7 +209,7 @@ export default {
     },
     created() {
         this.fetchData();
-        this.getRoleData();
+        this.fetchRoleData();
     },
     methods: {
         async fetchData() {
@@ -216,17 +217,19 @@ export default {
             this.tableData = res.data.results;
             this.total = res.data.total;
         },
-        async getRoleData() {
-            const res = await getRole();
-            this.roleData = res.data;
+        async fetchRoleData() {
+            const res = await listRole({ size: 999 });
+            this.roleData = res.data.results;
         },
         addUser() {
             this.form = {};
             this.drawerType = "add";
             this.drawer = true;
         },
-        editUser(row) {
-            this.form = row;
+        async editUser(row) {
+            const res = await retrieveUser(row.id);
+            this.form = res.data.user;
+            this.form["id"] = row.id;
             this.drawerType = "edit";
             this.drawer = true;
         },

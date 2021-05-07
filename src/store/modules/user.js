@@ -78,7 +78,7 @@ const actions = {
                 if (!data) {
                     reject("Verification failed, please Login again.")
                 }
-                data.user.roles = data.user.roles.map(x => x.title)
+                // data.user.roles = data.user.roles.map(x => x.title)
                 const {
                     username,
                     nickname,

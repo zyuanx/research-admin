@@ -1,9 +1,10 @@
 import request from "@/utils/request";
 
-export function listPermission() {
+export function listPermission(query) {
     return request({
         url: "/api/permission",
         method: "get",
+        params: query
     })
 }
 
@@ -28,8 +29,6 @@ export function updatePermission(id, data) {
         data
     })
 }
-
-
 
 export function destroyPermission(id) {
     return request({

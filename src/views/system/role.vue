@@ -103,6 +103,7 @@
 <script>
 import {
     listRole,
+    retrieveRole,
     createRole,
     updateRole,
     deleteRole
@@ -161,17 +162,21 @@ export default {
             return res;
         },
         async getPermissionData() {
-            const res = await listPermission();
+            const res = await listPermission({ size: 999 });
             this.permissonTreeData = this.toTree(res.data.results);
         },
         // 编辑角色
-        editRole(row) {
-            this.form = row;
+        async editRole(row) {
+            const res = await retrieveRole(row.id);
+            this.form = res.data.role;
             this.drawer = true;
             this.drawerType = "edit";
             this.$nextTick(() => {
                 // this.$refs.permRef.setCheckedKeys(row.permissions);
-                this.$refs.permRef.setCheckedKeys([1, 3, 4], true);
+                this.$refs.permRef.setCheckedKeys(
+                    this.form.permissions ? this.form.permissions : [],
+                    true
+                );
             });
         },
         // 添加角色

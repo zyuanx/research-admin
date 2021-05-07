@@ -131,7 +131,7 @@ import {
     listPermission,
     updatePermission,
     createPermission,
-    deletePermission
+    destroyPermission
 } from "@/api/system/permisson";
 
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
@@ -241,8 +241,8 @@ export default {
                 type: "warning"
             })
                 .then(async () => {
-                    await deletePermission(row.id);
-                    this.getPermissionData();
+                    await destroyPermission(row.id);
+                    this.fetchData();
                     this.$message.success("成功");
                 })
                 .catch(err => {
