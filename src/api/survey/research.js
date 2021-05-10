@@ -28,31 +28,10 @@ export function updateResearch(id, data) {
     })
 }
 
-
-
-// 删除调研问卷
 export function deleteResearch(id) {
     return request({
         url: `/api/research/${id}`,
         method: "delete"
-    })
-}
-
-// 提交调研数据
-export function createResearchData(data) {
-    return request({
-        url: "/api/research/data/",
-        method: "post",
-        data: data
-    })
-}
-
-// 获取调研数据
-export function listResearchData(query) {
-    return request({
-        url: "/api/research/data/",
-        method: "get",
-        params: query
     })
 }
 

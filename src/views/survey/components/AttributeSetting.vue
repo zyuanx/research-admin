@@ -233,7 +233,7 @@
 </template>
 
 <script>
-import { createResearch } from "@/api/research";
+import { createResearch } from "@/api/survey/research";
 import { Message } from "element-ui";
 export default {
     model: {

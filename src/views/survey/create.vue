@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import ControlSelection from "@/views/research/components/ControlSelection.vue";
-import MiddlePreview from "@/views/research/components/MiddlePreview.vue";
-import AttributeSetting from "@/views/research/components/AttributeSetting.vue";
+import ControlSelection from "@/views/survey/components/ControlSelection.vue";
+import MiddlePreview from "@/views/survey/components/MiddlePreview.vue";
+import AttributeSetting from "@/views/survey/components/AttributeSetting.vue";
 
 export default {
     components: {

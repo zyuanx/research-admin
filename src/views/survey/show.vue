@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div style="padding:20px;">
         <el-table :data="tableData" size="mini" border stripe>
             <el-table-column
                 type="index"
@@ -100,16 +100,10 @@
                     <el-button type="primary" @click="submitForm('ruleForm')">
                         更新
                     </el-button>
-                    <el-button
-                        type="success"
-                        @click="previewResearch(scope.row)"
-                    >
-                        数据
-                    </el-button>
                 </el-form-item>
             </el-form>
             <el-divider><i class="el-icon-mobile-phone"></i>预览</el-divider>
-            <preview :research="form"></preview>
+            <research-preview :research="form"></research-preview>
         </el-drawer>
     </div>
 </template>
@@ -121,13 +115,13 @@ import {
     exportResearchData,
     updateResearch,
     deleteResearch
-} from "@/api/research";
+} from "@/api/survey/research";
 import { Message } from "element-ui";
-import Preview from "@/views/research/components/Preview.vue";
+import ResearchPreview from "@/views/survey/components/ResearchPreview.vue";
 
 export default {
     components: {
-        Preview
+        ResearchPreview
     },
     data() {
         return {
@@ -192,7 +186,7 @@ export default {
                     return false;
                 }
             });
-        }, // 添加、更新权限
+        },
         async confirmEdit() {
             let payload = {
                 title: this.form.title,
@@ -205,7 +199,6 @@ export default {
             this.fetchData();
             this.drawer = false;
         },
-        // 调研数据导出
         exportResearchData: function(row) {
             Message({
                 message: "请稍等",

@@ -92,10 +92,10 @@ export const asyncRoutes = [{
         ]
     },
     {
-        path: "/research",
+        path: "/survey",
         component: Layout,
-        redirect: "/research/create",
-        name: "Research",
+        redirect: "/survey/create",
+        name: "Survey",
         meta: {
             title: "问卷管理",
             icon: "el-icon-s-help",
@@ -104,7 +104,7 @@ export const asyncRoutes = [{
         children: [{
                 path: "/create",
                 name: "ResearchCreate",
-                component: () => import("@/views/research/create"),
+                component: () => import("@/views/survey/create"),
                 meta: {
                     title: "创建调研",
                     icon: "form"
@@ -113,7 +113,7 @@ export const asyncRoutes = [{
             {
                 path: "/show",
                 name: "ResearchShow",
-                component: () => import("@/views/research/show"),
+                component: () => import("@/views/survey/show"),
                 meta: {
                     title: "调研列表",
                     icon: "table"
@@ -122,7 +122,7 @@ export const asyncRoutes = [{
             {
                 path: "/square",
                 name: "ResearchSquare",
-                component: () => import("@/views/research/square"),
+                component: () => import("@/views/survey/square"),
                 meta: {
                     title: "问卷广场",
                     icon: "table"
@@ -131,21 +131,12 @@ export const asyncRoutes = [{
             {
                 path: "/record",
                 name: "ResearchRecord",
-                component: () => import("@/views/research/show"),
+                component: () => import("@/views/survey/RecordList"),
                 meta: {
-                    title: "问卷记录",
+                    title: "填写记录",
                     icon: "table"
                 }
             },
-            // {
-            //     path: "/preview/:id",
-            //     component: () => import("@/views/research/preview"),
-            //     name: "Preview",
-            //     hidden: true,
-            //     meta: {
-            //         title: "调研信息",
-            //     }
-            // },
         ]
     },
     {
