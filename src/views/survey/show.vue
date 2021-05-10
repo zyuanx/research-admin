@@ -50,6 +50,7 @@
                         icon="el-icon-s-data"
                         size="mini"
                         circle
+                        @click="exportExcel(scope.row)"
                     ></el-button>
                     <el-button
                         type="danger"
@@ -112,11 +113,10 @@
 import {
     listResearch,
     retrieveResearch,
-    exportResearchData,
     updateResearch,
-    deleteResearch
+    deleteResearch,
+    exportRecord
 } from "@/api/survey/research";
-import { Message } from "element-ui";
 import ResearchPreview from "@/views/survey/components/ResearchPreview.vue";
 
 export default {
@@ -199,35 +199,15 @@ export default {
             this.fetchData();
             this.drawer = false;
         },
-        exportResearchData: function(row) {
-            Message({
-                message: "请稍等",
-                type: "success",
-                duration: 1000,
-                offset: 200
+        async exportExcel(row) {
+            const res = await exportRecord(row.researchID);
+            let blob = new Blob([res], {
+                type:
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             });
-            exportResearchData({
-                research_id: row.id
-            }).then(res => {
-                let data = res; // 这里后端对文件流做了一层封装，将data指向res.data即可
-                if (!data) {
-                    return;
-                }
-                let url = window.URL.createObjectURL(
-                    new Blob([data], {
-                        type:
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
-                    })
-                );
-                let a = document.createElement("a");
-                a.style.display = "none";
-                a.href = url;
-                a.setAttribute("download", row.id + ".xlsx");
-                document.body.appendChild(a);
-                a.click(); // 执行下载
-                window.URL.revokeObjectURL(a.href); // 释放url
-                document.body.removeChild(a); // 释放标签
-            });
+            let objectUrl = URL.createObjectURL(blob); // 创建URL
+            location.href = objectUrl;
+            URL.revokeObjectURL(objectUrl); // 释放内存
         },
         // 调研预览
         previewResearch: function(row) {

@@ -34,13 +34,10 @@ export function deleteResearch(id) {
         method: "delete"
     })
 }
-
-// 导出调研数据
-export function exportResearchData(query) {
+export function exportRecord(id) {
     return request({
-        url: "/api/research/export/",
+        url: `/api/research/export/${id}`,
         method: "get",
-        params: query,
         responseType: "blob"
     })
 }
