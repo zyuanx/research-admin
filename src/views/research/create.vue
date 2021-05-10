@@ -46,7 +46,6 @@ export default {
                 title: "调研标题",
                 desc: "调研描述",
                 once: 0,
-                confirm: "提交",
                 // 调研空间字段
                 detail: [
                     {

@@ -203,20 +203,13 @@
                                 v-model="research.desc"
                             ></el-input>
                         </el-form-item>
-                        <!-- <el-form-item label="是否重复填写">
-                                <el-switch
-                                    v-model="research.once"
-                                    :active-value="1"
-                                    :inactive-value="0"
-                                >
-                                </el-switch>
-                            </el-form-item> -->
-                        <el-form-item label="调研提交名称" prop="confirm">
-                            <el-input
-                                placeholder="如：确定、提交"
-                                v-model="research.confirm"
-                                clearable
-                            ></el-input>
+                        <el-form-item label="是否重复填写">
+                            <el-switch
+                                v-model="research.once"
+                                :active-value="1"
+                                :inactive-value="0"
+                            >
+                            </el-switch>
                         </el-form-item>
 
                         <el-form-item style="text-align:center;">
@@ -270,13 +263,6 @@ export default {
                     {
                         required: true,
                         message: "请输入调研描述",
-                        trigger: "blur"
-                    }
-                ],
-                confirm: [
-                    {
-                        required: true,
-                        message: "请输入调研提交名称",
                         trigger: "blur"
                     }
                 ]

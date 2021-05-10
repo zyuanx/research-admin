@@ -90,7 +90,7 @@
                 <el-form-item label="路径" prop="path">
                     <el-input v-model="form.path"></el-input>
                 </el-form-item>
-                <el-form-item label="描述">
+                <el-form-item label="描述" prop="desc">
                     <el-input v-model="form.desc"></el-input>
                 </el-form-item>
                 <el-form-item label="方法" prop="method">
@@ -129,6 +129,7 @@
 <script>
 import {
     listPermission,
+    retrievePermission,
     updatePermission,
     createPermission,
     destroyPermission
@@ -160,7 +161,14 @@ export default {
                     {
                         required: true,
                         message: "请输入路径",
-                        trigger: "change"
+                        trigger: "blur"
+                    }
+                ],
+                desc: [
+                    {
+                        required: true,
+                        message: "请输入描述",
+                        trigger: "blur"
                     }
                 ],
                 method: [
@@ -191,16 +199,15 @@ export default {
             this.total = res.data.total;
         },
         // 编辑权限
-        editPermission(row) {
-            this.form = row;
+        async editPermission(row) {
+            const res = await retrievePermission(row.id)
+            this.form = res.data.permission;
             this.drawerType = "edit";
             this.drawer = true;
         },
         // 添加权限
         addPermission() {
-            this.form = {
-                menu: 0
-            };
+            this.form = {};
             this.drawerType = "add";
             this.drawer = true;
         },

@@ -149,7 +149,7 @@
                 </div>
                 <el-form-item style="text-align:center;">
                     <el-button type="primary" size="medium">
-                        {{ research.confirm }}
+                        提交
                     </el-button>
                 </el-form-item>
             </el-form>

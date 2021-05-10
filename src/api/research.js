@@ -1,8 +1,5 @@
 import request from "@/utils/request"
 
-
-
-// 获取调研列表
 export function listResearch(query) {
     return request({
         url: "/api/research",
@@ -10,7 +7,12 @@ export function listResearch(query) {
         params: query
     })
 }
-// 创建调研
+export function retrieveResearch(id) {
+    return request({
+        url: `/api/research/${id}`,
+        method: "get"
+    })
+}
 export function createResearch(data) {
     return request({
         url: "/api/research",
@@ -18,7 +20,6 @@ export function createResearch(data) {
         data: data
     })
 }
-// 更新调研信息
 export function updateResearch(id, data) {
     return request({
         url: `/api/research/${id}`,
@@ -27,13 +28,7 @@ export function updateResearch(id, data) {
     })
 }
 
-// 获取调研问卷
-export function readResearch(id) {
-    return request({
-        url: `/api/research/${id}`,
-        method: "get"
-    })
-}
+
 
 // 删除调研问卷
 export function deleteResearch(id) {

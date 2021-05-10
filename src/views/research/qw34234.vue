@@ -125,10 +125,7 @@
                     type="primary"
                     size="medium"
                     @click="submitForm('researchRef')"
-                    >{{ research.confirm }}</el-button
-                >
-                <el-button size="medium" @click="resetForm('researchRef')"
-                    >重置</el-button
+                    >提交</el-button
                 >
             </el-form-item>
         </el-form>
@@ -137,10 +134,10 @@
 
 <script>
 import {
-    readResearch,
+    retrieveResearch,
     createResearchData,
     listResearchData
-} from "@/api/research/preview";
+} from "@/api/research";
 import { Message } from "element-ui";
 export default {
     name: "Preview",
@@ -151,16 +148,16 @@ export default {
         };
     },
     created() {
-        this.readResearch();
+        this.fetchData();
     },
     methods: {
-        // 获取指定id下的问卷
-        async readResearch() {
+        async fetchData() {
+            // 获取指定id下的问卷
             const id = this.$route.params.id;
-            const res = await readResearch(id);
+            const res = await retrieveResearch(id);
             this.research = res.data.research;
 
-            if (res.data.status === 0) {
+            if (this.research.status === 0) {
                 Message({
                     message: "调研已停止收集",
                     type: "error",
@@ -202,9 +199,6 @@ export default {
                     return false;
                 }
             });
-        },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
         }
     },
     computed: {

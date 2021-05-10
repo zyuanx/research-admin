@@ -120,14 +120,32 @@ export const asyncRoutes = [{
                 }
             },
             {
-                path: "/preview/:id",
-                component: () => import("@/views/research/preview"),
-                name: "Preview",
-                hidden: true,
+                path: "/square",
+                name: "ResearchSquare",
+                component: () => import("@/views/research/square"),
                 meta: {
-                    title: "调研信息",
+                    title: "问卷广场",
+                    icon: "table"
                 }
             },
+            {
+                path: "/record",
+                name: "ResearchRecord",
+                component: () => import("@/views/research/show"),
+                meta: {
+                    title: "问卷记录",
+                    icon: "table"
+                }
+            },
+            // {
+            //     path: "/preview/:id",
+            //     component: () => import("@/views/research/preview"),
+            //     name: "Preview",
+            //     hidden: true,
+            //     meta: {
+            //         title: "调研信息",
+            //     }
+            // },
         ]
     },
     {
