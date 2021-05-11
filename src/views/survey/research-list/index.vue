@@ -117,7 +117,7 @@ import {
     deleteResearch,
     exportRecord
 } from "@/api/survey/research";
-import ResearchPreview from "@/views/survey/components/ResearchPreview.vue";
+import ResearchPreview from "./components/ResearchPreview";
 
 export default {
     components: {

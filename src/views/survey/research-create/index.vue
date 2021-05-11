@@ -2,38 +2,38 @@
     <el-row style="min-width:1000px;">
         <!-- 左侧控件选择区 -->
         <el-col :span="6">
-            <control-selection @factor-add="factorAdd"></control-selection>
+            <research-control @factor-add="factorAdd"></research-control>
         </el-col>
         <!-- 中间问卷展示区域 -->
         <el-col :span="10">
-            <middle-preview
+            <research-design
                 v-model="research"
                 @set-edit-index="setEditIndex"
-            ></middle-preview>
+            ></research-design>
         </el-col>
         <!-- 右侧属性设置 -->
         <el-col :span="8">
-            <attribute-setting
+            <research-attribute
                 v-model="research"
                 :editIndex="editIndex"
                 :editFactor="editFactor"
                 :editFieldId="editFieldId"
             >
-            </attribute-setting>
+            </research-attribute>
         </el-col>
     </el-row>
 </template>
 
 <script>
-import ControlSelection from "@/views/survey/components/ControlSelection.vue";
-import MiddlePreview from "@/views/survey/components/MiddlePreview.vue";
-import AttributeSetting from "@/views/survey/components/AttributeSetting.vue";
+import ResearchControl from "./components/ResearchControl";
+import ResearchDesign from "./components/ResearchDesign";
+import ResearchAttribute from "./components/ResearchAttribute";
 
 export default {
     components: {
-        ControlSelection,
-        MiddlePreview,
-        AttributeSetting
+        ResearchControl,
+        ResearchDesign,
+        ResearchAttribute
     },
     data() {
         return {

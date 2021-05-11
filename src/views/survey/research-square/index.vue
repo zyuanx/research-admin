@@ -1,8 +1,5 @@
 <template>
     <div style="padding:20px;">
-        <el-button type="primary" icon="el-icon-plus" @click="exportExcel">
-            导出
-        </el-button>
         <el-table :data="tableData" size="mini" border stripe>
             <el-table-column
                 type="index"
@@ -16,13 +13,27 @@
                 align="center"
             ></el-table-column>
             <el-table-column
+                prop="desc"
+                label="描述"
+                min-width="300"
+            ></el-table-column>
+            <el-table-column
                 prop="user.username"
-                label="填写人"
+                label="发布人"
                 align="center"
             ></el-table-column>
-            <el-table-column label="填写日期" width="140" align="center">
+            <el-table-column label="收集状态" width="80" align="center">
                 <template slot-scope="scope">
-                    {{ scope.row.createAt | parseTime }}
+                    <el-tag v-if="scope.row.status === 0" type="success"
+                        >编辑中</el-tag
+                    >
+                    <el-tag v-else-if="scope.row.status === 1">收集中</el-tag>
+                    <el-tag v-else type="success">已结束</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="修改时间" width="140" align="center">
+                <template slot-scope="scope">
+                    {{ scope.row.updatedAt | parseTime }}
                 </template>
             </el-table-column>
             <el-table-column
@@ -35,8 +46,9 @@
                     <el-button
                         type="text"
                         size="mini"
-                        @click="readRecord(scope.row)"
-                        >查看</el-button
+                        icon="el-icon-edit"
+                        @click="createRecord(scope.row)"
+                        >填写</el-button
                     >
                 </template>
             </el-table-column>
@@ -50,20 +62,32 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
         ></el-pagination>
+
+        <el-drawer title="问卷填写" :visible.sync="drawer" size="50%">
+            <reserach-write :research="research"></reserach-write>
+        </el-drawer>
     </div>
 </template>
 
 <script>
-import { listRecord, exportRecord } from "@/api/survey/record";
+import { listResearch, retrieveResearch } from "@/api/survey/research";
+import ReserachWrite from "./components/ResearchWrite";
+
 export default {
+    components: {
+        ReserachWrite
+    },
     data() {
         return {
+            listLoading: false,
             tableData: [],
             total: 0,
             listQuery: {
                 page: 1,
                 size: 10
-            }
+            },
+            drawer: false,
+            research: {}
         };
     },
     created() {
@@ -71,18 +95,22 @@ export default {
     },
     methods: {
         async fetchData() {
-            const res = await listRecord(this.listQuery);
+            this.listLoading = true;
+            let res = await listResearch(this.listQuery);
             this.tableData = res.data.results;
             this.total = res.data.total;
+            this.listLoading = false;
         },
-        async exportExcel() {
-            const res = await exportRecord();
-            let blob = new Blob([res], {
-                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            });
-            let objectUrl = URL.createObjectURL(blob); // 创建URL
-            location.href = objectUrl;
-            URL.revokeObjectURL(objectUrl); // 释放内存
+        async createRecord(row) {
+            if (row.status === 2) {
+                this.$message.error("问卷已停止填写");
+            } else if (row.status === 0) {
+                this.$message.error("问卷仍在编辑中");
+            } else {
+                const res = await retrieveResearch(row.id);
+                this.research = res.data.research;
+                this.drawer = true;
+            }
         },
         handleSizeChange(val) {
             this.listQuery.size = val;

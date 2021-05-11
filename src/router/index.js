@@ -28,7 +28,7 @@ export const constantRoutes = [{
         children: [{
             path: "",
             name: "ChangePassword",
-            component: () => import("@/views/system/changePassword"),
+            component: () => import("@/views/change-password/index"),
             meta: {
                 title: "密码修改",
             }
@@ -65,7 +65,7 @@ export const asyncRoutes = [{
         children: [{
                 path: "/user",
                 name: "User",
-                component: () => import("@/views/system/user"),
+                component: () => import("@/views/system/user/index"),
                 meta: {
                     title: "用户管理",
                     icon: "user",
@@ -74,7 +74,7 @@ export const asyncRoutes = [{
             {
                 path: "/role",
                 name: "Role",
-                component: () => import("@/views/system/role"),
+                component: () => import("@/views/system/role/index"),
                 meta: {
                     title: "角色管理",
                     icon: "el-icon-s-custom",
@@ -82,8 +82,8 @@ export const asyncRoutes = [{
             },
             {
                 path: "/permission",
-                name: "Permisson",
-                component: () => import("@/views/system/permisson"),
+                name: "Permission",
+                component: () => import("@/views/system/permission/index"),
                 meta: {
                     title: "权限菜单",
                     icon: "el-icon-menu",
@@ -104,7 +104,7 @@ export const asyncRoutes = [{
         children: [{
                 path: "/create",
                 name: "ResearchCreate",
-                component: () => import("@/views/survey/create"),
+                component: () => import("@/views/survey/research-create/index"),
                 meta: {
                     title: "创建调研",
                     icon: "form"
@@ -113,7 +113,7 @@ export const asyncRoutes = [{
             {
                 path: "/show",
                 name: "ResearchShow",
-                component: () => import("@/views/survey/show"),
+                component: () => import("@/views/survey/research-list/index"),
                 meta: {
                     title: "调研列表",
                     icon: "table"
@@ -122,7 +122,7 @@ export const asyncRoutes = [{
             {
                 path: "/square",
                 name: "ResearchSquare",
-                component: () => import("@/views/survey/square"),
+                component: () => import("@/views/survey/research-square/index"),
                 meta: {
                     title: "问卷广场",
                     icon: "table"
@@ -131,7 +131,7 @@ export const asyncRoutes = [{
             {
                 path: "/record",
                 name: "ResearchRecord",
-                component: () => import("@/views/survey/RecordList"),
+                component: () => import("@/views/survey/record-list/index"),
                 meta: {
                     title: "填写记录",
                     icon: "table"

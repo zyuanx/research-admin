@@ -37,6 +37,7 @@
 <script>
 import { changePassword } from "@/api/auth";
 export default {
+    name: "ChangePassword",
     data() {
         let validatePassword2 = (rule, value, callback) => {
             if (value === "") {

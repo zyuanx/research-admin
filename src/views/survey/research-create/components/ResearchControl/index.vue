@@ -93,6 +93,10 @@
 
 <script>
 export default {
+    name: "ResearchControl",
+    data() {
+        return {};
+    },
     methods: {
         factorAdd(control) {
             this.$emit("factor-add", control);

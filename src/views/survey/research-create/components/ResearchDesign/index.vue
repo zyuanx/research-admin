@@ -159,6 +159,7 @@
 
 <script>
 export default {
+    name: "ResearchDesign",
     model: {
         prop: "research",
         event: "change"

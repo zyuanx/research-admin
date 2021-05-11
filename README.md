@@ -6,25 +6,34 @@
 
 ### Work list
 
-> The new version is not finished
-
 -   [x] RBAC user manage
-    -   [x] CURD user, role, permission
-    -   [x] User avatar update
-    -   [x] Simple password modification
-    -   [x] Authorized routing and menu
-    -   [ ] Custom user reset password
-    -   [ ] Customize the password for adding users
--   [x] Research manage
+    -   [x] User
+        -   [x] Create user and set password
+        -   [x] Set the role and update
+        -   [x] Reset Password
+        -   [ ] Import the user
+    -   [x] Role
+        -   [x] Set the permission and update
+    -   [x] Permission
+        -   [x] Sorting and grouping
+-   [x] Research create
     -   [x] Create custom research
-    -   [x] Update research info
-    -   [x] Download research data
-    -   [x] Delete research
+    -   [x] Field validation
+-   [x] Research list
+    -   [x] Update and preview
+    -   [x] Download record data
+-   [x] Research square
+    -   [x] Preview and wirte
     -   [ ] Research data analysis
     -   [ ] Research data view
-    -   [ ] Limit the number of fills
--   [ ] Logs manage
+-   [x] Record list
+    -   [x] Simple wirter info
+    -   [ ] Research data analysis
+    -   [ ] Research data view
 -   [ ] More
+    -   [ ] Logs manage
+    -   [ ] Online users
+    -   [ ] Task queue
 
 ### RBAC manage
 
@@ -36,9 +45,11 @@
 
 ### Research manage
 
-<img src="./assets/research_create.png" />
+<img src="./assets/research-create.png" />
 
-<img src="./assets/reaserch_list.png" />
+<img src="./assets/research-list.png" /><img src="./assets/research-square.png" />
+
+<img src="./assets/record-list.png" />
 
 ### Built With
 

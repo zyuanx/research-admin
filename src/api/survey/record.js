@@ -20,10 +20,4 @@ export function createRecord(data) {
         data: data
     })
 }
-export function exportRecord(id) {
-    return request({
-        url: `/api/record/export/${id}`,
-        method: "get",
-        responseType: "blob"
-    })
-}
+

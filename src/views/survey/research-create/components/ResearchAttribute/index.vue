@@ -236,6 +236,7 @@
 import { createResearch } from "@/api/survey/research";
 import { Message } from "element-ui";
 export default {
+    name: "ResearchAttribute",
     model: {
         prop: "research",
         event: "change"
