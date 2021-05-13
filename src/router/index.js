@@ -99,7 +99,7 @@ export const asyncRoutes = [{
         meta: {
             title: "问卷管理",
             icon: "el-icon-s-help",
-            roles: ["admin"]
+            roles: ["admin", "edit"]
         },
         children: [{
                 path: "/create",
@@ -107,7 +107,8 @@ export const asyncRoutes = [{
                 component: () => import("@/views/survey/research-create/index"),
                 meta: {
                     title: "创建调研",
-                    icon: "form"
+                    icon: "form",
+                    roles: ["admin"]
                 }
             },
             {
@@ -116,7 +117,8 @@ export const asyncRoutes = [{
                 component: () => import("@/views/survey/research-list/index"),
                 meta: {
                     title: "调研列表",
-                    icon: "table"
+                    icon: "table",
+                    roles: ["admin"]
                 }
             },
             {
@@ -125,7 +127,8 @@ export const asyncRoutes = [{
                 component: () => import("@/views/survey/research-square/index"),
                 meta: {
                     title: "问卷广场",
-                    icon: "table"
+                    icon: "table",
+                    roles: ["edit"]
                 }
             },
             {
@@ -134,7 +137,8 @@ export const asyncRoutes = [{
                 component: () => import("@/views/survey/record-list/index"),
                 meta: {
                     title: "填写记录",
-                    icon: "table"
+                    icon: "table",
+                    roles: ["admin"]
                 }
             },
         ]
@@ -147,7 +151,7 @@ export const asyncRoutes = [{
 ];
 
 const createRouter = () => new Router({
-    // mode: "history", // require service support
+    mode: "history", // require service support
     scrollBehavior: () => ({
         y: 0
     }),
