@@ -132,9 +132,7 @@
 </template>
 
 <script>
-import {
-    createRecord,
-} from "@/api/survey/record";
+import { createRecord } from "@/api/survey/record";
 export default {
     name: "ResearchWrite",
     props: {
@@ -158,7 +156,7 @@ export default {
             let payload = {
                 title: this.research.title,
                 researchID: this.research.researchID,
-                fieldsValue: this.research.fieldsValue,
+                fieldsValue: this.research.fieldsValue
             };
             await createRecord(payload);
             this.$message.success("填写成功");

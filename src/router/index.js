@@ -63,15 +63,6 @@ export const asyncRoutes = [{
             roles: ["admin"]
         }, // 页面需要的权限
         children: [{
-                path: "/user",
-                name: "User",
-                component: () => import("@/views/system/user/index"),
-                meta: {
-                    title: "用户管理",
-                    icon: "user",
-                }
-            },
-            {
                 path: "/role",
                 name: "Role",
                 component: () => import("@/views/system/role/index"),
@@ -90,6 +81,20 @@ export const asyncRoutes = [{
                 }
             },
         ]
+    },
+    {
+        path: "/user",
+        component: Layout,
+        redirect: "/user",
+        children: [{
+            path: "/user",
+            name: "User",
+            component: () => import("@/views/system/user/index"),
+            meta: {
+                title: "用户管理",
+                icon: "user",
+            }
+        }]
     },
     {
         path: "/survey",
@@ -122,16 +127,6 @@ export const asyncRoutes = [{
                 }
             },
             {
-                path: "/square",
-                name: "ResearchSquare",
-                component: () => import("@/views/survey/research-square/index"),
-                meta: {
-                    title: "问卷广场",
-                    icon: "table",
-                    roles: ["edit"]
-                }
-            },
-            {
                 path: "/record",
                 name: "ResearchRecord",
                 component: () => import("@/views/survey/record-list/index"),
@@ -142,6 +137,32 @@ export const asyncRoutes = [{
                 }
             },
         ]
+    },
+    {
+        path: "/square",
+        component: Layout,
+        redirect: "/square",
+        children: [{
+            path: "/square",
+            name: "ResearchSquare",
+            component: () => import("@/views/survey/research-square/index"),
+            meta: {
+                title: "问卷广场",
+                icon: "table",
+            }
+        }, ]
+    },
+    {
+        path: "API接口",
+        component: Layout,
+        roles: ["admin"],
+        children: [{
+            path: "http://202.119.207.183:8083/swagger/index.html",
+            meta: {
+                "title": "API接口",
+                "icon": "link"
+            }
+        }]
     },
     {
         path: "*",

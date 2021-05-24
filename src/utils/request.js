@@ -10,6 +10,7 @@ import {
 // 创建axios实例
 const service = axios.create({
     baseURL: "http://127.0.0.1:8080/",
+    // baseURL: "http://202.119.207.183:8083/",
     timeout: 5000 
 })
 

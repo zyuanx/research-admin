@@ -14,10 +14,7 @@
             <!-- 问卷字段 -->
             <div v-for="(item, index) in research.detail" :key="index">
                 <!-- 控件元素 -->
-                <el-form-item
-                    :label="index + 1 + '. ' + item.label"
-                    :prop="item.fieldId"
-                >
+                <el-form-item :label="index + 1 + '. ' + item.label">
                     <!--单选框-->
                     <el-radio-group
                         v-if="item.factor === 'radio'"
