@@ -6,7 +6,6 @@
             ref="researchRef"
             label-position="top"
             label-width="100px"
-            size="small"
         >
             <!-- 问卷基础信息 -->
             <div class="center-basic">

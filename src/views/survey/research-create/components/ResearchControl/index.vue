@@ -9,7 +9,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('radio')"
                         >单选框
                     </el-button>
@@ -17,7 +16,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('checkbox')"
                         >复选框
                     </el-button>
@@ -25,7 +23,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('text')"
                         >短文本
                     </el-button>
@@ -33,7 +30,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('textarea')"
                         >长文本
                     </el-button>
@@ -41,7 +37,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('select')"
                         >下拉选择
                     </el-button>
@@ -49,7 +44,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('switch')"
                         >开关
                     </el-button>
@@ -57,7 +51,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('timePicker')"
                         >时间选择
                     </el-button>
@@ -65,7 +58,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('timePickerRange')"
                         >时间范围
                     </el-button>
@@ -73,7 +65,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('datePicker')"
                         >日期选择
                     </el-button>
@@ -81,7 +72,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        size="medium"
                         @click="factorAdd('datePickerRange')"
                         >日期范围
                     </el-button>

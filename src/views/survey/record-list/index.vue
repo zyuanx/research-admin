@@ -1,6 +1,6 @@
 <template>
     <div style="padding:20px;">
-        <el-table :data="tableData" size="mini" border stripe>
+        <el-table :data="tableData" border stripe>
             <el-table-column
                 type="index"
                 label="#"
@@ -22,7 +22,7 @@
                 label="IP地址"
                 align="center"
             ></el-table-column>
-            <el-table-column label="填写日期" width="140" align="center">
+            <el-table-column label="填写日期" width="160" align="center">
                 <template slot-scope="scope">
                     {{ scope.row.createAt | parseTime }}
                 </template>
@@ -52,12 +52,18 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
         ></el-pagination>
+        <el-drawer title="记录预览" :visible.sync="drawer" size="50%">
+            <record-preview :research="research"></record-preview>
+        </el-drawer>
     </div>
 </template>
 
 <script>
-import { listRecord } from "@/api/survey/record";
+import { listRecord, retrieveRecord } from "@/api/survey/record";
+import { retrieveMgoResearch } from "@/api/survey/research";
+import RecordPreview from "./components/RecordPreview";
 export default {
+    components: { RecordPreview },
     data() {
         return {
             tableData: [],
@@ -65,7 +71,9 @@ export default {
             listQuery: {
                 page: 1,
                 size: 10
-            }
+            },
+            drawer: false,
+            research: {}
         };
     },
     created() {
@@ -84,6 +92,15 @@ export default {
         handleCurrentChange(val) {
             this.listQuery.page = val;
             this.fetchData();
+        },
+        async readRecord(row) {
+            const res = await retrieveRecord(row.id);
+            const re = await retrieveMgoResearch(row.researchID);
+            const research = re.data.research;
+            research.title = res.data.record.title;
+            research.fieldsValue = res.data.record.fieldsValue;
+            this.research = research;
+            this.drawer = true;
         }
     }
 };

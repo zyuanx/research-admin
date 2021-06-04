@@ -5,7 +5,6 @@
                 :model="research.fieldsValue"
                 label-position="top"
                 label-width="100px"
-                size="small"
                 :rules="research.rules"
             >
                 <!-- 问卷基础信息 -->

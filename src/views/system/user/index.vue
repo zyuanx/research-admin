@@ -3,24 +3,24 @@
         <el-button type="primary" icon="el-icon-plus" @click="addUser"
             >添加</el-button
         >
-        <el-table :data="tableData" size="mini" border stripe>
+        <el-table :data="tableData" border stripe>
             <el-table-column
                 type="index"
                 label="序号"
-                width="50"
+                width="70"
                 align="center"
             ></el-table-column>
             <el-table-column
                 prop="username"
                 label="用户名"
-                width="120"
+                width="180"
                 align="center"
             >
             </el-table-column>
             <el-table-column
                 prop="nickname"
                 label="昵称"
-                width="120"
+                width="180"
                 align="center"
             >
             </el-table-column>
@@ -38,30 +38,45 @@
                 fixed="right"
                 align="center"
                 label="操作"
-                width="140"
+                width="100"
             >
                 <template slot-scope="scope">
-                    <el-button
-                        type="primary"
-                        size="mini"
-                        icon="el-icon-edit"
-                        circle
-                        @click="editUser(scope.row)"
-                    ></el-button>
-                    <el-button
-                        type="warning"
-                        size="mini"
-                        icon="el-icon-refresh"
-                        circle
-                        @click="resetPassword(scope.row)"
-                    ></el-button>
-                    <el-button
-                        type="danger"
-                        size="mini"
-                        icon="el-icon-delete"
-                        circle
-                        @click="deleteUser(scope.row)"
-                    ></el-button>
+                    <el-dropdown trigger="click">
+                        <span style="cursor: pointer;color: #409eff;">
+                            更多<i style="font-size: 12px;"
+                                class="el-icon-arrow-down"
+                            ></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-edit"
+                                    @click="editUser(scope.row)"
+                                    style="color:#67c23a;"
+                                    >编辑</el-button
+                                ></el-dropdown-item
+                            >
+                            <el-dropdown-item>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-refresh"
+                                    @click="resetPassword(scope.row)"
+                                    style="color:#e6a23c;"
+                                    >重置密码</el-button
+                                >
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-delete"
+                                    @click="deleteUser(scope.row)"
+                                    style="color:#f56c6c;"
+                                    >删除</el-button
+                                >
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </template>
             </el-table-column>
         </el-table>
@@ -84,7 +99,7 @@
                 :rules="rules"
                 ref="ruleForm"
                 label-width="80px"
-                style="margin:20px;"
+                style="padding:20px;"
             >
                 <el-form-item label="用户名" prop="username">
                     <el-input
@@ -128,6 +143,7 @@
                         v-model="form.roles"
                         multiple
                         placeholder="请选择"
+                        style="width:100%"
                     >
                         <el-option
                             v-for="(item, index) in roleData"
@@ -311,34 +327,5 @@ export default {
 </script>
 
 <style lang="scss" scope>
-.avatar-item {
-    display: flex;
-    // justify-content: space-;
-}
-.avatar-uploader {
-    .el-upload {
-        border: 1px dashed #d9d9d9;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
-    .el-upload:hover {
-        border-color: #409eff;
-    }
-    .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 100px;
-        height: 100px;
-        line-height: 100px;
-        text-align: center;
-    }
-    margin-right: 20px;
-}
-.avatar {
-    width: 100px;
-    height: 100px;
-    display: block;
-}
+
 </style>

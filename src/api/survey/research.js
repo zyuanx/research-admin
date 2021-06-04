@@ -41,3 +41,11 @@ export function exportRecord(id) {
         responseType: "blob"
     })
 }
+
+
+export function retrieveMgoResearch(id) {
+    return request({
+        url: `/api/research/mgo/${id}`,
+        method: "get"
+    })
+}

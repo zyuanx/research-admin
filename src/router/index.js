@@ -80,21 +80,16 @@ export const asyncRoutes = [{
                     icon: "el-icon-menu",
                 }
             },
-        ]
-    },
-    {
-        path: "/user",
-        component: Layout,
-        redirect: "/user",
-        children: [{
-            path: "/user",
-            name: "User",
-            component: () => import("@/views/system/user/index"),
-            meta: {
-                title: "用户管理",
-                icon: "user",
+            {
+                path: "/user",
+                name: "User",
+                component: () => import("@/views/system/user/index"),
+                meta: {
+                    title: "用户管理",
+                    icon: "user",
+                }
             }
-        }]
+        ]
     },
     {
         path: "/survey",
@@ -104,7 +99,7 @@ export const asyncRoutes = [{
         meta: {
             title: "问卷管理",
             icon: "el-icon-s-help",
-            roles: ["admin", "edit"]
+            roles: ["admin"]
         },
         children: [{
                 path: "/create",
@@ -112,8 +107,7 @@ export const asyncRoutes = [{
                 component: () => import("@/views/survey/research-create/index"),
                 meta: {
                     title: "创建调研",
-                    icon: "form",
-                    roles: ["admin"]
+                    icon: "form"
                 }
             },
             {
@@ -122,8 +116,7 @@ export const asyncRoutes = [{
                 component: () => import("@/views/survey/research-list/index"),
                 meta: {
                     title: "调研列表",
-                    icon: "table",
-                    roles: ["admin"]
+                    icon: "table"
                 }
             },
             {
@@ -132,8 +125,7 @@ export const asyncRoutes = [{
                 component: () => import("@/views/survey/record-list/index"),
                 meta: {
                     title: "填写记录",
-                    icon: "table",
-                    roles: ["admin"]
+                    icon: "table"
                 }
             },
         ]
@@ -143,19 +135,24 @@ export const asyncRoutes = [{
         component: Layout,
         redirect: "/square",
         children: [{
-            path: "/square",
+            path: "",
             name: "ResearchSquare",
             component: () => import("@/views/survey/research-square/index"),
             meta: {
                 title: "问卷广场",
                 icon: "table",
+                roles: ["admin", "edit"]
             }
         }, ]
     },
     {
         path: "API接口",
         component: Layout,
-        roles: ["admin"],
+        meta: {
+            title: "API接口",
+            icon: "link",
+            roles: ["admin"]
+        },
         children: [{
             path: "http://202.119.207.183:8083/swagger/index.html",
             meta: {

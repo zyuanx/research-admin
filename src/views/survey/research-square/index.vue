@@ -1,6 +1,6 @@
 <template>
     <div style="padding:20px;">
-        <el-table :data="tableData" size="mini" border stripe>
+        <el-table :data="tableData" border stripe>
             <el-table-column
                 type="index"
                 label="#"
@@ -31,7 +31,7 @@
                     <el-tag v-else type="success">已结束</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column label="修改时间" width="140" align="center">
+            <el-table-column label="修改时间" width="160" align="center">
                 <template slot-scope="scope">
                     {{ scope.row.updatedAt | parseTime }}
                 </template>

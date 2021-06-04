@@ -1,18 +1,14 @@
 <template>
-    <el-card shadow="hover" style="margin:5px;">
+    <div style="padding:20px;">
         <el-form
             :model="research.fieldsValue"
-            :rules="research.rules"
             ref="researchRef"
             label-position="top"
             label-width="100px"
-            size="small"
-            :disabled="status"
         >
             <!-- 问卷基础信息 -->
             <div class="center-basic">
                 <h3>{{ research.title }}</h3>
-                <p>{{ research.desc }}</p>
             </div>
             <!-- 问卷字段 -->
             <div v-for="(item, index) in research.detail" :key="index">
@@ -120,98 +116,24 @@
                     </el-date-picker>
                 </el-form-item>
             </div>
-            <el-form-item style="text-align:center;">
-                <el-button
-                    type="primary"
-                    size="medium"
-                    @click="submitForm('researchRef')"
-                    >提交</el-button
-                >
-            </el-form-item>
         </el-form>
-    </el-card>
+    </div>
 </template>
 
 <script>
-import {
-    retrieveResearch,
-    createResearchData,
-    listResearchData
-} from "@/api/research";
-import { Message } from "element-ui";
 export default {
-    name: "Preview",
+    name: "RecordPreview",
+    props: {
+        research: Object
+    },
     data() {
-        return {
-            user: {},
-            research: {}
-        };
+        return {};
     },
-    created() {
-        this.fetchData();
-    },
-    methods: {
-        async fetchData() {
-            // 获取指定id下的问卷
-            const id = this.$route.params.id;
-            const res = await retrieveResearch(id);
-            this.research = res.data.research;
-
-            if (this.research.status === 0) {
-                Message({
-                    message: "调研已停止收集",
-                    type: "error",
-                    duration: 3 * 1000,
-                    offset: 200
-                });
-            }
-        },
-        async createResearchData(data) {
-            await createResearchData(data);
-            this.$message.success("提交成功");
-        },
-        // 获取用户某一问卷填写信息
-        getUserResearchData(id, user) {
-            listResearchData({
-                research_id: id,
-                username: user
-            }).then(res => {
-                if (res.data.count) {
-                    this.user = {};
-                    Message({
-                        message: "已完成填写",
-                        type: "success",
-                        duration: 1000,
-                        offset: 200
-                    });
-                }
-            });
-        },
-        submitForm(formName) {
-            this.$refs[formName].validate(valid => {
-                if (valid) {
-                    const payload = {
-                        research_id: this.research.id,
-                        detail: this.research.fieldsValue
-                    };
-                    this.createResearchData(payload);
-                } else {
-                    return false;
-                }
-            });
-        }
-    },
-    computed: {
-        status() {
-            // this.research["status"]为1，在收集
-            // this.user为空，错误
-            return !this.research["status"];
-        }
-    }
+    methods: {}
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // 调研基本信息
 .center-basic {
     padding: 10px;

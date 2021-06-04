@@ -3,7 +3,7 @@
         <el-button type="primary" icon="el-icon-plus" @click="addPermission"
             >添加</el-button
         >
-        <el-table :data="tableData" size="mini" border stripe>
+        <el-table :data="tableData" border stripe>
             <el-table-column
                 type="index"
                 label="序号"
@@ -25,15 +25,25 @@
                 label="描述"
                 align="center"
             ></el-table-column>
-            <el-table-column
-                prop="method"
-                label="方法"
-                align="center"
-            ></el-table-column>
+            <el-table-column label="方法" align="center" width="80">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.method === 'GET'">GET</el-tag>
+                    <el-tag v-if="scope.row.method === 'POST'" type="success"
+                        >POST</el-tag
+                    >
+                    <el-tag v-if="scope.row.method === 'PUT'" type="warning"
+                        >PUT</el-tag
+                    >
+                    <el-tag v-if="scope.row.method === 'DELETE'" type="danger"
+                        >UPDATE</el-tag
+                    >
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="index"
                 label="次序"
                 align="center"
+                width="50"
             ></el-table-column>
             <el-table-column label="修改时间" align="center">
                 <template slot-scope="scope">
@@ -47,20 +57,34 @@
                 width="100"
             >
                 <template slot-scope="scope">
-                    <el-button
-                        type="primary"
-                        size="mini"
-                        icon="el-icon-edit"
-                        circle
-                        @click="editPermission(scope.row)"
-                    ></el-button>
-                    <el-button
-                        type="danger"
-                        size="mini"
-                        icon="el-icon-delete"
-                        circle
-                        @click="deletePermission(scope.row)"
-                    ></el-button>
+                    <el-dropdown trigger="click">
+                        <span style="cursor: pointer;color: #409eff;">
+                            更多<i
+                                style="font-size: 12px;"
+                                class="el-icon-arrow-down"
+                            ></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-edit"
+                                    @click="editPermission(scope.row)"
+                                    style="color:#67c23a;"
+                                    >编辑</el-button
+                                ></el-dropdown-item
+                            >
+                            <el-dropdown-item>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-delete"
+                                    @click="deletePermission(scope.row)"
+                                    style="color:#f56c6c;"
+                                    >删除</el-button
+                                >
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </template>
             </el-table-column>
         </el-table>
@@ -83,6 +107,7 @@
                 :rules="rules"
                 ref="ruleForm"
                 label-width="80px"
+                style="padding:20px;"
             >
                 <el-form-item label="组" prop="group">
                     <el-input v-model="form.group"></el-input>
@@ -200,7 +225,7 @@ export default {
         },
         // 编辑权限
         async editPermission(row) {
-            const res = await retrievePermission(row.id)
+            const res = await retrievePermission(row.id);
             this.form = res.data.permission;
             this.drawerType = "edit";
             this.drawer = true;

@@ -3,13 +3,7 @@
         <el-button type="primary" icon="el-icon-plus" @click="addRole"
             >添加</el-button
         >
-        <el-table
-            :data="tableData"
-            size="mini"
-            border
-            stripe
-            @selection-change="handleSelectionChange"
-        >
+        <el-table :data="tableData" border stripe>
             <el-table-column type="selection" width="50" align="center">
             </el-table-column>
             <el-table-column
@@ -42,20 +36,34 @@
                 width="100"
             >
                 <template slot-scope="scope">
-                    <el-button
-                        type="primary"
-                        size="mini"
-                        icon="el-icon-edit"
-                        circle
-                        @click="editRole(scope.row)"
-                    ></el-button>
-                    <el-button
-                        type="danger"
-                        size="mini"
-                        icon="el-icon-delete"
-                        circle
-                        @click="deleteRole(scope.row)"
-                    ></el-button>
+                    <el-dropdown trigger="click">
+                        <span style="cursor: pointer;color: #409eff;">
+                            更多<i
+                                style="font-size: 12px;"
+                                class="el-icon-arrow-down"
+                            ></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-edit"
+                                    @click="editRole(scope.row)"
+                                    style="color:#67c23a;"
+                                    >编辑</el-button
+                                ></el-dropdown-item
+                            >
+                            <el-dropdown-item>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-delete"
+                                    @click="deleteRole(scope.row)"
+                                    style="color:#f56c6c;"
+                                    >删除</el-button
+                                >
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </template>
             </el-table-column>
         </el-table>
