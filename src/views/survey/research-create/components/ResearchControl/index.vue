@@ -44,13 +44,6 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        @click="factorAdd('switch')"
-                        >开关
-                    </el-button>
-                </div>
-                <div class="btns-item">
-                    <el-button
-                        type="primary"
                         @click="factorAdd('timePicker')"
                         >时间选择
                     </el-button>
@@ -58,22 +51,8 @@
                 <div class="btns-item">
                     <el-button
                         type="primary"
-                        @click="factorAdd('timePickerRange')"
-                        >时间范围
-                    </el-button>
-                </div>
-                <div class="btns-item">
-                    <el-button
-                        type="primary"
                         @click="factorAdd('datePicker')"
                         >日期选择
-                    </el-button>
-                </div>
-                <div class="btns-item">
-                    <el-button
-                        type="primary"
-                        @click="factorAdd('datePickerRange')"
-                        >日期范围
                     </el-button>
                 </div>
             </div>

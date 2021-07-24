@@ -86,7 +86,7 @@ const actions = {
                     roles,
                 } = data.user
                 // roles must be a non-empty array
-                if (!roles || roles.length <= 0) {
+                if (!roles) {
                     // reject("getInfo: roles must be a non-null array!")
                     reject("无权限")
                 }

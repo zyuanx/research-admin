@@ -69,6 +69,7 @@ export const asyncRoutes = [{
                 meta: {
                     title: "角色管理",
                     icon: "el-icon-s-custom",
+                    roles: ["admin"]
                 }
             },
             {
@@ -78,6 +79,7 @@ export const asyncRoutes = [{
                 meta: {
                     title: "权限菜单",
                     icon: "el-icon-menu",
+                    roles: ["admin"]
                 }
             },
             {
@@ -87,6 +89,7 @@ export const asyncRoutes = [{
                 meta: {
                     title: "用户管理",
                     icon: "user",
+                    roles: ["admin"]
                 }
             }
         ]
@@ -102,7 +105,7 @@ export const asyncRoutes = [{
             roles: ["admin"]
         },
         children: [{
-                path: "/create",
+                path: "/survey/create",
                 name: "ResearchCreate",
                 component: () => import("@/views/survey/research-create/index"),
                 meta: {
@@ -111,7 +114,7 @@ export const asyncRoutes = [{
                 }
             },
             {
-                path: "/show",
+                path: "/survey/show",
                 name: "ResearchShow",
                 component: () => import("@/views/survey/research-list/index"),
                 meta: {
@@ -120,7 +123,7 @@ export const asyncRoutes = [{
                 }
             },
             {
-                path: "/record",
+                path: "/survey/record",
                 name: "ResearchRecord",
                 component: () => import("@/views/survey/record-list/index"),
                 meta: {
@@ -154,7 +157,7 @@ export const asyncRoutes = [{
             roles: ["admin"]
         },
         children: [{
-            path: "http://202.119.207.183:8083/swagger/index.html",
+            path: "http://127.0.0.1:8080/swagger/index.html",
             meta: {
                 "title": "API接口",
                 "icon": "link"

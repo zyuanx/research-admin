@@ -11,7 +11,6 @@
                         <h4 style="padding:10px;text-align:center;">
                             组件基本属性
                         </h4>
-
                         <el-form-item label="字段id">
                             <el-input
                                 :disabled="true"
@@ -34,7 +33,6 @@
                                 clearable
                             ></el-input>
                         </el-form-item>
-                        <!-- 开关不需要 -->
                         <el-form-item
                             v-if="
                                 editFactor === 'text' ||
@@ -198,7 +196,7 @@
                         <el-form-item label="调研描述" prop="desc">
                             <el-input
                                 type="textarea"
-                                :rows="3"
+                                :rows="6"
                                 placeholder="请输入调研描述内容"
                                 v-model="research.desc"
                             ></el-input>
@@ -211,7 +209,6 @@
                             >
                             </el-switch>
                         </el-form-item>
-
                         <el-form-item style="text-align:center;">
                             <el-button-group>
                                 <el-button
@@ -220,9 +217,6 @@
                                     @click="onSubmit('basicSettingsRef')"
                                     >创建</el-button
                                 >
-                                <!-- <el-button type="success" size="medium"
-                                        >预览</el-button
-                                    > -->
                             </el-button-group>
                         </el-form-item>
                     </el-form>
@@ -243,9 +237,7 @@ export default {
     },
     props: {
         research: Object,
-        editIndex: Number,
-        editFactor: String,
-        editFieldId: String
+        editIndex: Number
     },
     data() {
         return {
@@ -296,24 +288,22 @@ export default {
         },
         onSubmit: function(formName) {
             this.$refs[formName].validate(valid => {
-                if (valid) {
-                    createResearch(this.research).then(res => {
-                        Message({
-                            message: res.message,
-                            type: "success",
-                            duration: 1000,
-                            offset: 200
-                        });
-                    });
-                } else {
+                if (!valid) {
                     console.log("error submit!!");
                     return false;
                 }
+                createResearch(this.research).then(res => {
+                    Message({
+                        message: res.message,
+                        type: "success",
+                        duration: 1000,
+                        offset: 200
+                    });
+                });
             });
         }
     },
     computed: {
-        // 计算属性的 getter
         defaultValue: function() {
             const value = this.research.fieldsValue[this.editFieldId];
             console.log("defaultValue", value);
@@ -321,13 +311,18 @@ export default {
                 return this.research.fieldsValue[this.editFieldId].join(",");
             }
             return this.research.fieldsValue[this.editFieldId];
+        },
+        editFactor: function() {
+            return this.research.detail[this.editIndex].factor;
+        },
+        editFieldId: function() {
+            return this.research.detail[this.editIndex].fieldId;
         }
     }
 };
 </script>
 
 <style lang="scss" scoped>
-// 单选、多选和下拉
 .options {
     display: flex;
     flex-direction: row;
