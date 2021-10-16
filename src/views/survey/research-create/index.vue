@@ -10,7 +10,7 @@
     </el-col>
     <!-- 右侧属性设置 -->
     <el-col :span="8">
-      <research-attribute v-model="research" :editIndex="editIndex" :editFieldId="editFieldId"></research-attribute>
+      <research-attribute v-model="research" :editIndex="editIndex"></research-attribute>
     </el-col>
   </el-row>
 </template>
@@ -36,7 +36,7 @@ export default {
       research: {
         title: "调研标题",
         desc: "同学你好，看到这个问卷说明你收到了我们的低电量推送提醒，目前为测试阶段，您的宝贵意见将是我们进步的动力，感谢对微生活的关注和支持，相信在我们共同努力下能够一起度过美好的时光，祝学业有成，加油！",
-        once: 0,
+        once: 1,
         detail: [
           {
             fieldId: "field1",

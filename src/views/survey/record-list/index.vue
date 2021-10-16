@@ -22,9 +22,9 @@
                 label="IP地址"
                 align="center"
             ></el-table-column>
-            <el-table-column label="填写日期" width="160" align="center">
+            <el-table-column label="填写时间" width="160" align="center">
                 <template slot-scope="scope">
-                    {{ scope.row.createAt | parseTime }}
+                    {{ scope.row.createdAt | parseTime }}
                 </template>
             </el-table-column>
             <el-table-column

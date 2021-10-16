@@ -50,14 +50,14 @@
                   >数据下载</el-button
                 >
               </el-dropdown-item>
-              <el-dropdown-item>
+              <!-- <el-dropdown-item>
                 <el-button
                   type="text"
                   icon="el-icon-delete"
                   style="color: #f56c6c"
                   @click="deleteResearch(scope.row)"
                 >删除</el-button>
-              </el-dropdown-item>
+              </el-dropdown-item> -->
             </el-dropdown-menu>
           </el-dropdown>
         </template>

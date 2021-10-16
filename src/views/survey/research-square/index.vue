@@ -22,7 +22,7 @@
                 label="发布人"
                 align="center"
             ></el-table-column>
-            <el-table-column label="收集状态" width="80" align="center">
+            <!-- <el-table-column label="收集状态" width="80" align="center">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.status === 0" type="success"
                         >编辑中</el-tag
@@ -35,7 +35,7 @@
                 <template slot-scope="scope">
                     {{ scope.row.updatedAt | parseTime }}
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
                 fixed="right"
                 align="center"
@@ -70,7 +70,8 @@
 </template>
 
 <script>
-import { listResearch, retrieveResearch } from "@/api/survey/research";
+import { listResearchSquare, retrieveResearch } from "@/api/survey/research";
+import { filledRecord } from "@/api/survey/record";
 import ReserachWrite from "./components/ResearchWrite";
 
 export default {
@@ -96,12 +97,13 @@ export default {
     methods: {
         async fetchData() {
             this.listLoading = true;
-            let res = await listResearch(this.listQuery);
+            let res = await listResearchSquare(this.listQuery);
             this.tableData = res.data.results;
             this.total = res.data.total;
             this.listLoading = false;
         },
         async createRecord(row) {
+            await filledRecord(row.researchID);
             if (row.status === 2) {
                 this.$message.error("问卷已停止填写");
             } else if (row.status === 0) {

@@ -21,3 +21,11 @@ export function createRecord(data) {
     })
 }
 
+export function filledRecord(id) {
+  return request({
+    url: `/api/record/filled/${id}`,
+    method: "get",
+  });
+}
+
+

@@ -20,11 +20,11 @@
                             Home
                         </el-dropdown-item>
                     </router-link>
-                    <router-link to="/">
+                    <!-- <router-link to="/">
                         <el-dropdown-item>
                             个人信息
                         </el-dropdown-item>
-                    </router-link>
+                    </router-link> -->
                     <router-link to="/changePassword">
                         <el-dropdown-item>
                             修改密码

@@ -34,6 +34,15 @@ export function deleteResearch(id) {
         method: "delete"
     })
 }
+
+export function listResearchSquare(query) {
+    return request({
+        url: "/api/research/square",
+        method: "get",
+        params: query,
+    });
+}
+
 export function exportRecord(id) {
     return request({
         url: `/api/research/export/${id}`,
