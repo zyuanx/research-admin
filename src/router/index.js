@@ -157,6 +157,15 @@ export const asyncRoutes = [
     ],
   },
   {
+    path: "/drawer/:id",
+    component: () => import("@/views/survey/research-square/drawer"),
+    name: "DrawerPage",
+    hidden: true,
+    meta: {
+      title: "调研信息",
+    },
+  },
+  {
     path: "API接口",
     component: Layout,
     meta: {
