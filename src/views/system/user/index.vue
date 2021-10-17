@@ -17,18 +17,16 @@
         align="center"
       >
       </el-table-column>
-      <el-table-column prop="nickname" label="昵称" width="180" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="email"
-        label="邮箱"
-        align="center"
-      ></el-table-column>
-      <el-table-column label="修改时间" align="center">
+      <el-table-column prop="name" label="姓名" width="180" align="center"/>
+      <el-table-column prop="college" label="学院" align="center"/>
+      <el-table-column prop="profession" label="专业" align="center"/>
+      <el-table-column prop="rank" label="年级" align="center"/>
+      <el-table-column prop="clasz" label="班级" align="center"/>
+      <!-- <el-table-column label="修改时间" align="center">
         <template slot-scope="scope">
           {{ scope.row.updatedAt | parseTime }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column fixed="right" align="center" label="操作" width="100">
         <template slot-scope="scope">
           <el-dropdown trigger="click">
