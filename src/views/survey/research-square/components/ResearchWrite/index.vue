@@ -159,8 +159,7 @@ export default {
       };
       await createRecord(payload);
       this.$message.success("填写成功");
-      window.opener = null;
-      window.open("about:blank", "_top").close();
+      this.$router.back();
     },
   },
 };

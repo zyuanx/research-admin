@@ -1,6 +1,17 @@
 <template>
   <div style="padding: 20px">
-    <el-table :data="tableData" border stripe>
+    <el-card class="box-card" style="margin-bottom:20px;" v-for="(item, k) in tableData" :key="k">
+      <div slot="header" class="clearfix">
+        <span>{{item.title}}</span>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="createRecord(item)"
+          >填写</el-button
+        >
+      </div>
+      <div>
+        {{ item.desc }}
+      </div>
+    </el-card>
+    <!-- <el-table :data="tableData" border stripe>
       <el-table-column type="index" label="#" align="center"></el-table-column>
       <el-table-column
         prop="title"
@@ -18,20 +29,6 @@
         label="发布人"
         align="center"
       ></el-table-column>
-      <!-- <el-table-column label="收集状态" width="80" align="center">
-                <template slot-scope="scope">
-                    <el-tag v-if="scope.row.status === 0" type="success"
-                        >编辑中</el-tag
-                    >
-                    <el-tag v-else-if="scope.row.status === 1">收集中</el-tag>
-                    <el-tag v-else type="success">已结束</el-tag>
-                </template>
-            </el-table-column>
-            <el-table-column label="修改时间" width="160" align="center">
-                <template slot-scope="scope">
-                    {{ scope.row.updatedAt | parseTime }}
-                </template>
-            </el-table-column> -->
       <el-table-column fixed="right" align="center" label="操作" width="80">
         <template slot-scope="scope">
           <el-button
@@ -43,14 +40,13 @@
           >
         </template>
       </el-table-column>
-    </el-table>
+    </el-table> -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="listQuery.page"
-      :page-sizes="[10, 20, 30, 40]"
       :page-size="listQuery.size"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="total, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
 
@@ -102,12 +98,12 @@ export default {
       } else {
         // const res = await retrieveResearch(row.id);
         // this.research = res.data.research;
-        const { href } = this.$router.resolve({
+        this.$router.push({
           name: "DrawerPage",
           params: { id: row.id },
         });
-        window.open(href, "_blank");
-        
+        // window.open(href, "_blank");
+
         // this.drawer = true;
       }
     },

@@ -1,7 +1,8 @@
 <template>
     <div class="dashboard-container">
-        <div class="dashboard-text">username: {{ username }}</div>
-        <div class="dashboard-text">nickname: {{ nickname }}</div>
+        <div class="dashboard-text">{{ username }}</div>
+        <div class="dashboard-text">Welcome!</div>
+        <!-- <div class="dashboard-text">nickname: {{ nickname }}</div> -->
     </div>
 </template>
 
