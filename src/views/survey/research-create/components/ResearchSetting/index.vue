@@ -14,8 +14,8 @@
         <el-form-item label="问卷标题" prop="title">
           <el-input placeholder="输入问卷标题" v-model="research.title" clearable></el-input>
         </el-form-item>
-        <el-form-item label="问卷描述" prop="desc">
-          <el-input type="textarea" :rows="6" placeholder="请输入问卷描述内容" v-model="research.desc"></el-input>
+        <el-form-item label="问卷描述" prop="description">
+          <el-input type="textarea" :rows="6" placeholder="请输入问卷描述内容" v-model="research.description"></el-input>
         </el-form-item>
         <el-form-item label="表单大小">
           <el-radio-group v-model="research.config.size">

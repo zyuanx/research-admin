@@ -1,49 +1,22 @@
 # vue-research-admin
 
-## About The Project
+## 关于这个项目
 
+> 动态问卷设计发布、数据查看下载
+>
 > Dynamic form, survey questionnaire frontend system. Back-end repo: [gin-research-sys](https://github.com/Pandalzy/gin-research-sys)
 
 ### Work list
 
--   [x] RBAC user manage
-    -   [x] User
-        -   [x] Create user and set password
-        -   [x] Set the role and update
-        -   [x] Reset Password
-        -   [ ] Import the user
-    -   [x] Role
-        -   [x] Set the permission and update
-    -   [x] Permission
-        -   [x] Sorting and grouping
--   [x] Research create
-    -   [x] Create custom research
-    -   [x] Field validation
--   [x] Research list
-    -   [x] Update and preview
-    -   [x] Download record data
--   [x] Research square
-    -   [x] Preview and wirte
-    -   [ ] Research data analysis
-    -   [ ] Research data view
--   [x] Record list
-    -   [x] Simple wirter info
-    -   [ ] Research data analysis
-    -   [ ] Research data view
+-   [x] RBAC 用户管理
+-   [x] 问卷创建/修改
+-   [x] 问卷列表/数据下载
 -   [ ] More
-    -   [ ] Logs manage
-    -   [ ] Online users
-    -   [ ] Task queue
+    -   [ ] 日志管理
+    -   [ ] 系统负载
+    -   [ ] 任务流
 
-### RBAC manage
-
-<img src="./assets/user.png" />
-
-<img src="./assets/role.png" />
-
-<img src="./assets/permission.png"/>
-
-### Research manage
+### 问卷管理
 
 <img src="./assets/research-create.png" />
 
@@ -56,10 +29,9 @@
 -   [vue](https://vuejs.org/)
 -   [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
+## 开始使用
 
-## Getting Started
-
-### Installation
+### 安装
 
 1. clone the project
 
@@ -79,7 +51,7 @@ cd vue-research-admin
 npm install
 ```
 
-### Configuration
+### 配置
 
 Edit `src/util/request.js` file and modify base api.
 
@@ -87,7 +59,7 @@ Edit `src/util/request.js` file and modify base api.
 baseURL: "http://127.0.0.1:8080/api/"
 ```
 
-### Run
+### 运行
 
 ```sh
 npm run serve

@@ -15,7 +15,7 @@
       <el-table-column prop="title" label="角色名" width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="desc"
+        prop="description"
         label="描述"
         align="center"
       ></el-table-column>
