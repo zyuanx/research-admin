@@ -6,7 +6,6 @@ const state = {
   token: getToken(),
   username: "",
   nickname: "",
-  avatar: "",
   roles: [],
 };
 
@@ -19,9 +18,6 @@ const mutations = {
   },
   SET_NICKNAME: (state, nickname) => {
     state.nickname = nickname;
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar;
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles;
@@ -60,17 +56,15 @@ const actions = {
             reject("Verification failed, please Login again.");
           }
           // data.user.roles = data.user.roles.map(x => x.title)
-          let { username, nickname, avatar, roles } = data.user;
-          // roles must be a non-empty array
-          if (!roles) {
-            data.user.roles = ["common"];
+          let { username, nickname, roles } = data.user;
+          roles = roles.map(function(item){return item.title})
+          if (roles.length === 0) {
             roles = ["common"];
             // reject("getInfo: roles must be a non-null array!")
             // reject("无权限")
           }
           commit("SET_USERNAME", username);
           commit("SET_NICKNAME", nickname);
-          commit("SET_AVATAR", avatar);
           commit("SET_ROLES", roles);
           resolve(data.user);
         })

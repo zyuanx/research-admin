@@ -1,14 +1,17 @@
 <template>
   <div style="padding: 20px">
-    <el-card class="box-card" style="margin-bottom:20px;" v-for="(item, k) in tableData" :key="k">
+    <el-card
+      class="box-card"
+      style="margin-bottom: 20px"
+      v-for="(item, k) in tableData"
+      :key="k"
+    >
       <div slot="header" class="clearfix">
-        <span>{{item.title}}</span>
-        <el-button style="float: right; padding: 3px 0" type="text" @click="createRecord(item)"
-          >填写</el-button
-        >
+        <span>{{ item.title }}</span>
       </div>
-      <div>
-        {{ item.desc }}
+      <div style="display: flex;align-items: center;justify-content: space-between;">
+        {{ item.createdAt | parseTime }}
+        <el-button type="primary" @click="createRecord(item)" size="medium">填写</el-button>
       </div>
     </el-card>
     <!-- <el-table :data="tableData" border stripe>

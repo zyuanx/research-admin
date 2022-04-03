@@ -5,23 +5,11 @@
       <h3>{{ research.title }}</h3>
       <p>{{ research.description }}</p>
     </div>
-    <el-form :model="research.values" v-bind="research.config" ref="researchRef">
+    <el-form :model="research.values" v-bind="research.config" ref="previewRef">
       <transition-group name="drag" class="drag-list">
-        <div
-          v-for="(item, index) in research.items"
-          :key="item.fieldId"
-          :class="[editIndex === index ? 'bg-select' : '', dragIndex === index ? 'bg-drag' : '', 'center-form']"
-          draggable
-          @dragenter="dragenter($event, index)"
-          @dragstart="dragstart(index)"
-          @dragend="dragend(index)"
-          @dragover="dragover($event, index)"
-          @click="setEditIndex(index)"
-        >
+        <div v-for="(item, index) in research.items" :key="item.fieldId" v-if="checkDisplay(item)">
           <!-- 控件元素 -->
           <el-form-item :label="item.label" :prop="item.fieldId" :rules="item.rules">
-            <!-- <span slot="error">Label for the slot</span> -->
-            <!--单选框-->
             <el-radio-group v-if="item.factor === 'radio'" v-model="research.values[item.fieldId]">
               <el-radio
                 v-for="(item2, index2) in item.options"
@@ -95,66 +83,71 @@
       </transition-group>
     </el-form>
     <div style="text-align:center;margin-top: 5px;">
-      <el-button type="primary" size="medium" @click="submitForm('researchRef')">提交</el-button>
+      <el-button type="primary" size="medium" @click="submitForm('previewRef')">提交</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import { Message } from "element-ui";
 export default {
-  name: "ResearchDesign",
-  model: {
-    prop: "research",
-    event: "change"
-  },
+  name: "ResearchPreview",
   props: {
-    research: Object,
-    editIndex: Number,
+    previewData: Object,
   },
   data() {
     return {
-      dragIndex: -1,
+      research: JSON.parse(JSON.stringify(this.previewData)),
     };
   },
   methods: {
-    setEditIndex: function (editIndex) {
-      this.$emit("set-edit-index", editIndex);
-    },
-    shuffle() {
-      this.research.items = this.$shuffle(this.research.items);
-    },
-    dragstart(index) {
-      this.dragIndex = index;
-    },
-    dragend(index) {
-      this.dragIndex = -1;
-    },
-    dragenter(e, index) {
-      e.preventDefault();
-      // 避免源对象触发自身的dragenter事件
-      if (this.dragIndex !== index) {
-        const source = this.research.items[this.dragIndex];
-        this.research.items.splice(this.dragIndex, 1);
-        this.research.items.splice(index, 0, source);
-        // 排序变化后目标对象的索引变成源对象的索引
-        this.dragIndex = index;
+    // 检查是否展示
+    checkDisplay(item) {
+      if (item.display === undefined || item.display.length === 0) {
+        return true;
       }
-    },
-    dragover(e) {
-      e.preventDefault();
+      for (let i = 0; i < item.display.length; i++) {
+        const fieldId = item.display[i][0];
+        const value = item.display[i][1];
+        const fieldValue = this.research.values[fieldId];
+        if (fieldValue instanceof Array && fieldValue.indexOf(value) !== -1) {
+          return true;
+        } else if (fieldValue === value) {
+          return true;
+        }
+      }
+      return false;
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.confirmEdit();
+          Message({
+            message: "提交成功",
+            type: "success",
+            duration: 2 * 1000,
+          });
         } else {
-          console.log("error submit!!");
+          Message({
+            message: "提交失败",
+            type: "error",
+            duration: 2 * 1000,
+          });
           return false;
         }
       });
     },
-
-  }
+  },
+  // computed: {
+  //   research: {
+  //     get() {
+  //       // return this.previewData;
+  //       return JSON.parse(JSON.stringify(this.previewData));
+  //     },
+  //     set(newValue) {
+  //       console.log(newValue);
+  //     }
+  //   }
+  // }
 };
 </script>
 

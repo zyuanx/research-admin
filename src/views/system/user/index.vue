@@ -4,24 +4,18 @@
       >添加</el-button
     >
     <el-table :data="tableData" border stripe>
-      <el-table-column
-        type="index"
-        label="序号"
-        width="70"
-        align="center"
-      ></el-table-column>
+      <el-table-column type="index" label="序号" width="70" align="center" />
       <el-table-column
         prop="username"
         label="用户名"
         width="180"
         align="center"
-      >
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" width="180" align="center"/>
-      <el-table-column prop="college" label="学院" align="center"/>
-      <el-table-column prop="profession" label="专业" align="center"/>
-      <el-table-column prop="rank" label="年级" align="center"/>
-      <el-table-column prop="clasz" label="班级" align="center"/>
+      />
+      <el-table-column prop="name" label="姓名" width="180" align="center" />
+      <el-table-column prop="college" label="学院" align="center" />
+      <el-table-column prop="profession" label="专业" align="center" />
+      <el-table-column prop="rank" label="年级" width="100" align="center" />
+      <el-table-column prop="classname" label="班级" align="center" />
       <!-- <el-table-column label="修改时间" align="center">
         <template slot-scope="scope">
           {{ scope.row.updatedAt | parseTime }}
@@ -166,7 +160,7 @@ export default {
       total: 0,
       listQuery: {
         page: 1,
-        size: 10,
+        size: 20,
       },
       roleData: {},
       drawer: false,
@@ -203,7 +197,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      const res = await listUser();
+      const res = await listUser(this.listQuery);
       this.tableData = res.data.results;
       this.total = res.data.total;
     },

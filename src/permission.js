@@ -40,9 +40,8 @@ router.beforeEach(async (to, from, next) => {
             } else {
                 try {
                     // get user info
-                    const {
-                        roles
-                    } = await store.dispatch("user/getInfo")
+                    let { roles } = await store.dispatch("user/getInfo")
+                    roles = roles.map(function(item){return item.title})
                     const accessRoutes = await store.dispatch("permission/generateRoutes", roles)
                     router.addRoutes(accessRoutes)
                     // hack method to ensure that addRoutes is complete

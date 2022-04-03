@@ -43,22 +43,15 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <div class="title-container">
-        <p style="color:#fff;">账号为学号，初始密码为 123456</p>
-        <p style="color:#fff;">请登录后及时修改密码</p>
-      </div>
       <el-button
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登陆
-      </el-button>
+      >登录</el-button>
     </el-form>
   </div>
 </template>
@@ -85,8 +78,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "",
-        password: "",
+        username: "admin",
+        password: "123456",
       },
       loginRules: {
         username: [

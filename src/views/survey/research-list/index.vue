@@ -2,34 +2,28 @@
   <div style="padding: 20px">
     <el-table :data="tableData" border stripe>
       <el-table-column type="index" label="#" align="center"></el-table-column>
-      <el-table-column
-        prop="title"
-        label="标题"
-        min-width="130"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="desc"
-        label="描述"
-        min-width="300"
-      ></el-table-column>
-      <el-table-column label="收集状态" width="80" align="center">
+      <el-table-column prop="title" label="标题" min-width="130" align="center"></el-table-column>
+      <el-table-column prop="description" label="描述" min-width="300"></el-table-column>
+      <el-table-column label="开始时间" width="160" align="center">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.status === 0" type="success">编辑中</el-tag>
-          <el-tag v-else-if="scope.row.status === 1">收集中</el-tag>
-          <el-tag v-else type="success">已结束</el-tag>
+          {{
+            scope.row.startAt | parseTime
+          }}
         </template>
       </el-table-column>
-      <el-table-column label="修改时间" width="160" align="center">
-        <template slot-scope="scope">{{
-          scope.row.updatedAt | parseTime
-        }}</template>
+      <el-table-column label="结束时间" width="160" align="center">
+        <template slot-scope="scope">
+          {{
+            scope.row.endAt | parseTime
+          }}
+        </template>
       </el-table-column>
       <el-table-column fixed="right" align="center" label="操作" width="80">
         <template slot-scope="scope">
           <el-dropdown trigger="click">
             <span style="cursor: pointer; color: #409eff">
-              更多<i style="font-size: 12px" class="el-icon-arrow-down"></i>
+              更多
+              <i style="font-size: 12px" class="el-icon-arrow-down"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
@@ -38,8 +32,7 @@
                   icon="el-icon-edit"
                   style="color: #67c23a"
                   @click="editResearch(scope.row)"
-                  >编辑</el-button
-                >
+                >编辑</el-button>
               </el-dropdown-item>
               <el-dropdown-item>
                 <el-button
@@ -47,8 +40,7 @@
                   icon="el-icon-s-data"
                   style="color: #e6a23c"
                   @click="exportExcel(scope.row)"
-                  >数据下载</el-button
-                >
+                >数据下载</el-button>
               </el-dropdown-item>
               <!-- <el-dropdown-item>
                 <el-button
@@ -57,7 +49,7 @@
                   style="color: #f56c6c"
                   @click="deleteResearch(scope.row)"
                 >删除</el-button>
-              </el-dropdown-item> -->
+              </el-dropdown-item>-->
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -74,13 +66,7 @@
     ></el-pagination>
 
     <el-drawer title="问卷编辑" :visible.sync="drawer" size="50%">
-      <el-form
-        :model="form"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="80px"
-        style="margin: 20px"
-      >
+      <el-form :model="form" :rules="rules" ref="ruleForm" label-width="80px" style="margin: 20px">
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
@@ -96,12 +82,12 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="drawer = false">取消</el-button>
-          <el-button type="primary" @click="submitForm('ruleForm')"
-            >更新</el-button
-          >
+          <el-button type="primary" @click="submitForm('ruleForm')">更新</el-button>
         </el-form-item>
       </el-form>
-      <el-divider> <i class="el-icon-mobile-phone"></i>预览 </el-divider>
+      <el-divider>
+        <i class="el-icon-mobile-phone"></i>预览
+      </el-divider>
       <research-preview :research="form"></research-preview>
     </el-drawer>
   </div>

@@ -3,7 +3,8 @@ import Router from "vue-router";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
-  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject);
+  if (onResolve || onReject)
+    return originalPush.call(this, location, onResolve, onReject);
   return originalPush.call(this, location).catch((err) => err);
 };
 // Redirected when going from "/login?redirect=%2Fsystem%2Fuser" to "/system/user" via a navigation guard
@@ -116,7 +117,7 @@ export const asyncRoutes = [
         name: "ResearchCreate",
         component: () => import("@/views/survey/research-create/index"),
         meta: {
-          title: "创建调研",
+          title: "问卷创建",
           icon: "form",
         },
       },
@@ -125,7 +126,7 @@ export const asyncRoutes = [
         name: "ResearchShow",
         component: () => import("@/views/survey/research-list/index"),
         meta: {
-          title: "调研列表",
+          title: "问卷列表",
           icon: "table",
         },
       },
@@ -162,26 +163,8 @@ export const asyncRoutes = [
     name: "DrawerPage",
     hidden: true,
     meta: {
-      title: "调研信息",
+      title: "问卷信息",
     },
-  },
-  {
-    path: "API接口",
-    component: Layout,
-    meta: {
-      title: "API接口",
-      icon: "link",
-      roles: ["admin"],
-    },
-    children: [
-      {
-        path: "http://127.0.0.1:8080/swagger/index.html",
-        meta: {
-          title: "API接口",
-          icon: "link",
-        },
-      },
-    ],
   },
   {
     path: "*",
