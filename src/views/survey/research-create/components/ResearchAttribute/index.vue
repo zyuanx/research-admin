@@ -5,9 +5,9 @@
         <span>组件属性</span>
       </div>
       <el-form label-width="80px" size="small">
-        <h4 style="text-align: center">组件基本属性</h4>
+        <h4 style="text-align: center">基本属性</h4>
         <el-form-item label="字段id">
-          <el-input :disabled="true" v-model="editFieldId" clearable></el-input>
+          <el-input :disabled="true" v-model="editFieldID" clearable></el-input>
         </el-form-item>
         <el-form-item label="标题">
           <el-input placeholder="请输入标题" v-model="research.items[editIndex].label" clearable></el-input>
@@ -69,7 +69,7 @@
         </div>
         <!-- 开关不需要 -->
         <div v-if="editFactor !== 'switch'">
-          <h4 style="text-align: center">组件验证规则</h4>
+          <h4 style="text-align: center">验证规则</h4>
           <el-form-item label="是否必填">
             <el-switch v-model="research.items[editIndex].rules[0].required"></el-switch>
           </el-form-item>
@@ -90,7 +90,7 @@
           <el-button
             type="text"
             size="medium"
-            @click="setDisplay(research.items[editIndex].fieldId)"
+            @click="setDisplay(research.items[editIndex].fieldID)"
           >设置</el-button>
         </el-form-item>
         <div style="text-align: center; padding: 5px">
@@ -143,8 +143,8 @@ export default {
         });
         return;
       }
-      const fieldId = this.research.items[this.editIndex].fieldId;
-      this.$delete(this.research.values, fieldId); // 删除值
+      const fieldID = this.research.items[this.editIndex].fieldID;
+      this.$delete(this.research.values, fieldID); // 删除值
       if (editIndex === 0) {
         this.$emit('set-edit-index', 0);
       } else {
@@ -156,11 +156,11 @@ export default {
     // 删除选项
     deleteOption: function (editIndex, index) {
       const editFactor = this.research.items[this.editIndex].factor;
-      const fieldId = this.research.items[this.editIndex].fieldId;
+      const fieldID = this.research.items[this.editIndex].fieldID;
       if (editFactor === "checkbox") {
-        this.research.values[fieldId] = [];
+        this.research.values[fieldID] = [];
       } else {
-        this.research.values[fieldId] = "";
+        this.research.values[fieldID] = "";
       }
       this.research.items[editIndex].options.splice(index, 1);
     },
@@ -173,7 +173,7 @@ export default {
     },
     // 获取选项展示条件
     getDisplay() {
-      const id = this.research.items[this.editIndex].fieldId;
+      const id = this.research.items[this.editIndex].fieldID;
       const factors = new Set(['radio', 'checkbox', 'select'])
       const res = [];
       for (let i = 0; i < this.research.items.length; i++) {
@@ -181,13 +181,13 @@ export default {
         if (!factors.has(factor)) {
           continue
         }
-        const fieldId = this.research.items[i].fieldId;
-        if (fieldId === id) {  // 去除当前问题本身
+        const fieldID = this.research.items[i].fieldID;
+        if (fieldID === id) {  // 去除当前问题本身
           continue
         }
         const item = {
           label: this.research.items[i].label,
-          value: fieldId,
+          value: fieldID,
           children: this.research.items[i].options.map(item => {
             return {
               label: item.label,
@@ -209,29 +209,29 @@ export default {
     editFactor() {
       return this.research.items[this.editIndex].factor;
     },
-    editFieldId() {
-      return this.research.items[this.editIndex].fieldId;
+    editFieldID() {
+      return this.research.items[this.editIndex].fieldID;
     },
     defaultValue: {
       get() {
         const editFactor = this.research.items[this.editIndex].factor;
-        const editFieldId = this.research.items[this.editIndex].fieldId;
+        const editFieldID = this.research.items[this.editIndex].fieldID;
         if (editFactor === "checkbox") {
-          return this.research.values[editFieldId].join(",");
+          return this.research.values[editFieldID].join(",");
         }
-        return this.research.values[editFieldId]
+        return this.research.values[editFieldID]
       },
       set(newValue) {
         const editFactor = this.research.items[this.editIndex].factor;
-        const editFieldId = this.research.items[this.editIndex].fieldId;
+        const editFieldID = this.research.items[this.editIndex].fieldID;
         if (editFactor === "checkbox") {
           if (newValue.length === 0) {
-            this.research.values[editFieldId] = []
+            this.research.values[editFieldID] = []
           } else {
-            this.research.values[editFieldId] = newValue.split(",");
+            this.research.values[editFieldID] = newValue.split(",");
           }
         } else {
-          this.research.values[editFieldId] = newValue;
+          this.research.values[editFieldID] = newValue;
         }
       }
     }

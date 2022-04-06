@@ -5,8 +5,7 @@ import { getToken } from "@/utils/auth";
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: "http://127.0.0.1:8080/",
-  // baseURL: "https://sport.zyuanlee.cn/",
+  baseURL: process.env.VUE_APP_API_URL,
   timeout: 5000,
 });
 

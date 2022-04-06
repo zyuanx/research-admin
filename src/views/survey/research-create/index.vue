@@ -28,11 +28,16 @@
           :editIndex="editIndex"
           @set-edit-index="setEditIndex"
         ></research-attribute>
-        <research-setting v-if="setting" v-model="research"></research-setting>
+        <el-card v-if="setting" shadow="hover" style="margin: 5px">
+          <div slot="header">
+            <span>问卷设置</span>
+          </div>
+          <research-setting v-model="research"></research-setting>
+        </el-card>
       </el-col>
     </el-row>
     <!-- 对接方法描述块 -->
-    <!-- <el-dialog title="对接方法" :visible.sync="dialogVisible" width="40%">
+    <el-dialog title="对接方法" :visible.sync="dialogVisible" width="40%">
       <div>
         <p>
           url 传入 token 字段，如
@@ -54,7 +59,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
-    </el-dialog>-->
+    </el-dialog>
     <!-- 确认创建问卷 -->
     <el-dialog title="是否继续" :visible.sync="createDialog" width="40%">
       <div>
@@ -68,7 +73,7 @@
     </el-dialog>
     <!-- 预览块 -->
     <el-drawer title="问卷预览" :visible.sync="preview" size="700px">
-      <research-preview :preview-data="research" v-if="preview" style="margin: 5px 5px 10px 5px;"></research-preview>
+      <research-preview :preview-data="research" v-if="preview" style="margin: 10px;"></research-preview>
     </el-drawer>
   </div>
 </template>
@@ -79,8 +84,8 @@ import { Message } from 'element-ui';
 import ResearchControl from "./components/ResearchControl";
 import ResearchDesign from "./components/ResearchDesign";
 import ResearchAttribute from "./components/ResearchAttribute";
-import ResearchSetting from "./components/ResearchSetting";
-import ResearchPreview from "./components/ResearchPreview";
+import ResearchSetting from "@/components/Research/ResearchSetting";
+import ResearchPreview from "@/components/Research/ResearchPreview";
 import { factorItems, factorRules, factorValues, research } from "@/utils/research/factor";
 import { createResearch } from "@/api/survey/research";
 export default {
@@ -111,15 +116,15 @@ export default {
     // 添加控件
     factorAdd(factor) {
 
-      const fieldId = "field" + v4();
+      const fieldID = "field" + v4();
       const factorItem = JSON.parse(JSON.stringify(factorItems[factor]));
-      factorItem['fieldId'] = fieldId;
+      factorItem['fieldID'] = fieldID;
       const factorRule = JSON.parse(JSON.stringify(factorRules[factor]));
       factorItem["rules"] = factorRule
       const factorValue = JSON.parse(JSON.stringify(factorValues[factor]));
 
-      this.$set(this.research.values, fieldId, factorValue);  // Vue2 动态更新对象
-      // this.research.values[fieldId] = factorValue;  // Vue3 动态更新对象
+      this.$set(this.research.values, fieldID, factorValue);  // Vue2 动态更新对象
+      // this.research.values[fieldID] = factorValue;  // Vue3 动态更新对象
       this.research.items.push(factorItem);
     },
     // 设置编辑组件index

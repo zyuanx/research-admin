@@ -17,12 +17,12 @@
         <!-- 控件元素 -->
         <el-form-item
           :label="index + 1 + '. ' + item.label"
-          :prop="item.fieldId"
+          :prop="item.fieldID"
         >
           <!--单选框-->
           <el-radio-group
             v-if="item.factor === 'radio'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
           >
             <el-radio
               v-for="(item2, index2) in item.options"
@@ -34,7 +34,7 @@
           <!--复选框-->
           <el-checkbox-group
             v-else-if="item.factor === 'checkbox'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
           >
             <el-checkbox
               v-for="(item2, index2) in item.options"
@@ -47,7 +47,7 @@
           <el-input
             v-else-if="item.factor === 'text'"
             :placeholder="item.placeholder"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
             clearable
           ></el-input>
           <!-- 多行文本 -->
@@ -56,12 +56,12 @@
             type="textarea"
             :rows="item.rows"
             :placeholder="item.placeholder"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
           ></el-input>
           <!-- 下拉选择 -->
           <el-select
             v-else-if="item.factor === 'select'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
             clearable
             :placeholder="item.placeholder"
           >
@@ -75,21 +75,21 @@
           <!-- 开关 -->
           <el-switch
             v-else-if="item.factor === 'switch'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
             :active-value="item.activeValue"
             :inactive-value="item.inactiveValue"
           ></el-switch>
           <!-- 时间值 -->
           <el-time-picker
             v-else-if="item.factor === 'timePicker'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
             value-format="hh-mm-ss"
             :placeholder="item.placeholder"
           ></el-time-picker>
           <!-- 时间范围 -->
           <el-time-picker
             v-else-if="item.factor === 'timePickerRange'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
             value-format="hh-mm-ss"
             is-range
             range-separator="至"
@@ -101,14 +101,14 @@
           <!-- 日期值 -->
           <el-date-picker
             v-else-if="item.factor === 'datePicker'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
             value-format="yyyy-hh-dd"
             :placeholder="item.placeholder"
           ></el-date-picker>
           <!-- 日期范围 -->
           <el-date-picker
             v-else-if="item.factor === 'datePickerRange'"
-            v-model="research.fieldsValue[item.fieldId]"
+            v-model="research.fieldsValue[item.fieldID]"
             value-format="yyyy-hh-dd"
             type="daterange"
             range-separator="至"

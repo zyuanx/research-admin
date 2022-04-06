@@ -1,57 +1,43 @@
 <template>
-  <div style="padding: 20px">
+  <div style="padding: 10px">
     <el-table :data="tableData" border stripe>
       <el-table-column type="index" label="#" align="center"></el-table-column>
       <el-table-column prop="title" label="标题" min-width="130" align="center"></el-table-column>
-      <el-table-column prop="description" label="描述" min-width="300"></el-table-column>
-      <el-table-column label="开始时间" width="160" align="center">
+      <el-table-column prop="description" label="描述" min-width="300" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column label="开放状态" min-width="160" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{
-            scope.row.startAt | parseTime
-          }}
+          <span>
+            {{
+              scope.row.startAt | parseTime
+            }}
+            -
+            {{
+              scope.row.endAt | parseTime
+            }}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column label="结束时间" width="160" align="center">
+      <el-table-column label="开放状态" width="100" align="center">
         <template slot-scope="scope">
-          {{
-            scope.row.endAt | parseTime
-          }}
+          <el-tag type="success" size="small" v-if="scope.row.open">公开</el-tag>
+          <el-tag type="warning" size="small" v-else>不公开</el-tag>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" align="center" label="操作" width="80">
+      <el-table-column fixed="right" align="center" width="200" label="操作">
         <template slot-scope="scope">
-          <el-dropdown trigger="click">
-            <span style="cursor: pointer; color: #409eff">
-              更多
-              <i style="font-size: 12px" class="el-icon-arrow-down"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <el-button
-                  type="text"
-                  icon="el-icon-edit"
-                  style="color: #67c23a"
-                  @click="editResearch(scope.row)"
-                >编辑</el-button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-button
-                  type="text"
-                  icon="el-icon-s-data"
-                  style="color: #e6a23c"
-                  @click="exportExcel(scope.row)"
-                >数据下载</el-button>
-              </el-dropdown-item>
-              <!-- <el-dropdown-item>
-                <el-button
-                  type="text"
-                  icon="el-icon-delete"
-                  style="color: #f56c6c"
-                  @click="deleteResearch(scope.row)"
-                >删除</el-button>
-              </el-dropdown-item>-->
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-button type="text" icon="el-icon-edit" @click="editResearch(scope.row)">编辑</el-button>
+          <el-button
+            type="text"
+            icon="el-icon-s-claim"
+            style="color: #67c23a"
+            @click="previewResearch(scope.row)"
+          >预览</el-button>
+          <el-button
+            type="text"
+            icon="el-icon-s-data"
+            style="color: #e6a23c"
+            @click="viewRecord(scope.row)"
+          >数据</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,30 +51,15 @@
       :total="total"
     ></el-pagination>
 
-    <el-drawer title="问卷编辑" :visible.sync="drawer" size="50%">
-      <el-form :model="form" :rules="rules" ref="ruleForm" label-width="80px" style="margin: 20px">
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title"></el-input>
-        </el-form-item>
-        <el-form-item label="描述" prop="desc">
-          <el-input type="textarea" :rows="6" v-model="form.desc"></el-input>
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-select v-model="form.status" clearable placeholder="请选择">
-            <el-option label="编辑中" :value="0"></el-option>
-            <el-option label="收集中" :value="1"></el-option>
-            <el-option label="已完成" :value="2"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="drawer = false">取消</el-button>
-          <el-button type="primary" @click="submitForm('ruleForm')">更新</el-button>
-        </el-form-item>
-      </el-form>
-      <el-divider>
-        <i class="el-icon-mobile-phone"></i>预览
-      </el-divider>
-      <research-preview :research="form"></research-preview>
+    <el-drawer title="问卷编辑" :visible.sync="drawer" size="700px">
+      <research-setting v-model="research" style="margin: 20px;"></research-setting>
+      <div style="text-align:center;margin-top: 5px;">
+        <el-button size="small" @click="drawer = false">取消</el-button>
+        <el-button size="small" type="primary" @click="updateResearch">更新</el-button>
+      </div>
+    </el-drawer>
+    <el-drawer title="问卷预览" :visible.sync="preview" size="700px">
+      <research-preview :preview-data="research" v-if="preview" style="margin: 20px;"></research-preview>
     </el-drawer>
   </div>
 </template>
@@ -98,14 +69,15 @@ import {
   listResearch,
   retrieveResearch,
   updateResearch,
-  deleteResearch,
   exportRecord,
 } from "@/api/survey/research";
-import ResearchPreview from "./components/ResearchPreview";
-
+import ResearchPreview from "@/components/Research/ResearchPreview";
+import ResearchSetting from "@/components/Research/ResearchSetting";
 export default {
+  name: "ResearchList",
   components: {
     ResearchPreview,
+    ResearchSetting,
   },
   data() {
     return {
@@ -116,35 +88,15 @@ export default {
         page: 1,
         size: 10,
       },
-      form: {},
-      rules: {
-        title: [
-          {
-            required: true,
-            message: "请输入标题",
-            trigger: "blur",
-          },
-        ],
-        desc: [
-          {
-            required: true,
-            message: "请输入描述",
-            trigger: "blur",
-          },
-        ],
-        status: [
-          {
-            required: true,
-            message: "请选择状态",
-            trigger: "change",
-          },
-        ],
-      },
+      research: {},
       drawer: false,
+      preview: false,
       researchId: null,
     };
   },
   created() {
+    const id = this.$route.params.id;
+    this.listQuery.researchID = id;
     this.fetchData();
   },
   methods: {
@@ -157,76 +109,77 @@ export default {
     },
     async editResearch(row) {
       const res = await retrieveResearch(row.id);
-      this.form = res.data.research;
-      // this.form = row;
+      this.research = {
+        id: res.data.research.id,
+        title: res.data.research.title,
+        description: res.data.research.description,
+        config: JSON.parse(res.data.research.config),
+        startAt: res.data.research.startAt,
+        endAt: res.data.research.endAt,
+        access: JSON.parse(res.data.research.access),
+        once: res.data.research.once,
+        open: res.data.research.open,
+      };
       this.drawer = true;
     },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.confirmEdit();
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
-    },
-    async confirmEdit() {
-      let payload = {
-        title: this.form.title,
-        desc: this.form.desc,
-        status: this.form.status,
+    async updateResearch() {
+      const payload = {
+        title: this.research.title,
+        description: this.research.description,
+        config: JSON.stringify(this.research.config),
+        startAt: this.research.startAt,
+        endAt: this.research.endAt,
+        access: JSON.stringify(this.research.access),
+        once: this.research.once,
+        open: this.research.open,
       };
-      await updateResearch(this.form.id, payload);
+      await updateResearch(this.research.id, payload);
       this.$message.success("更新成功");
 
       this.fetchData();
       this.drawer = false;
     },
     async exportExcel(row) {
-      const res = await exportRecord(row.researchID);
+      const res = await exportRecord(row.id);
+      const link = document.createElement('a')
       let blob = new Blob([res], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-      let objectUrl = URL.createObjectURL(blob); // 创建URL
-      location.href = objectUrl;
-      URL.revokeObjectURL(objectUrl); // 释放内存
+      let objectUrl = URL.createObjectURL(blob);  // 创建URL
+      link.href = objectUrl;
+      link.download = row.title;  // 自定义文件名
+      link.click();  // 下载文件
+      URL.revokeObjectURL(objectUrl);  // 释放内存
     },
     // 调研预览
-    previewResearch: function (row) {
-      this.$router.push({ name: "Preview", params: { id: row.id } });
+    async previewResearch(row) {
+      const res = await retrieveResearch(row.id);
+      this.research = {
+        title: res.data.research.title,
+        description: res.data.research.description,
+        config: JSON.parse(res.data.research.config),
+        items: JSON.parse(res.data.research.items),
+        values: JSON.parse(res.data.research.values),
+        startAt: res.data.research.startAt,
+        endAt: res.data.research.endAt,
+        access: JSON.parse(res.data.research.access),
+        once: res.data.research.once,
+        open: res.data.research.once,
+      };
+      this.preview = true;
+
+      // this.$router.push({ name: "Preview", params: { id: row.id } });
       // const { href } = this.$router.resolve({
       //     name: "Preview",
       //     params: { id: row._id }
       // });
       // window.open(href, "_blank");
     },
-    // 删除调研
-    deleteResearch: function (row) {
-      this.$confirm("确认删除?", "警告", {
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(async () => {
-          await deleteResearch(row.id);
-          this.fetchData();
-          this.$message.success("成功");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      // deleteResearch(this.researchId).then(res => {
-      //     Message({
-      //         message: res.message,
-      //         type: "success",
-      //         duration: 1000,
-      //         offset: 200
-      //     });
-      //     this.dialogVisible = false;
-      //     this.fetchData();
-      // });
+    // 查看填写记录
+    viewRecord(row) {
+      this.$router.push({ name: "ResearchRecord", params: { id: row.id } });
     },
+
     handleSizeChange(val) {
       this.listQuery.size = val;
       this.fetchData();
@@ -239,40 +192,8 @@ export default {
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.bg-purple {
-  background: #f9fafc;
-}
-
-.bg-select {
-  background: #f6f7ff;
-}
-
-.grid-content {
-  min-height: 36px;
-}
-
-.del-option {
-  cursor: pointer;
-  color: #f56c6c;
-}
-
-.demo-table-expand {
-  font-size: 0;
-}
-.demo-table-expand label {
-  width: 90px;
-  color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 50%;
+<style lang="scss">
+.el-drawer.rtl {
+  overflow: scroll;
 }
 </style>

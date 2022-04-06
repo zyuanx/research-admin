@@ -127,7 +127,7 @@ export const research = {
   },
   items: [
     {
-      fieldId: "field7762c89-2d78-4447-b1b4-19f902149cbb",
+      fieldID: "field7762c89-2d78-4447-b1b4-19f902149cbb",
       factor: "radio",
       label: "单选",
       options: [
@@ -137,14 +137,14 @@ export const research = {
       rules: [{ required: true, message: "请选择一个值", trigger: "change" }],
     },
     {
-      fieldId: "field7cb5873f-697e-4c46-87b6-156d0a368553",
+      fieldID: "field7cb5873f-697e-4c46-87b6-156d0a368553",
       factor: "text",
       label: "短文本",
       placeholder: "请输入内容",
       rules: [{ required: true, message: "请输入内容", trigger: "blur" }],
     },
     {
-      fieldId: "fieldc0a35eac-ccee-4705-bb3e-729bc6afb657",
+      fieldID: "fieldc0a35eac-ccee-4705-bb3e-729bc6afb657",
       factor: "checkbox",
       label: "多选",
       options: [

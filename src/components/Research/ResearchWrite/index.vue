@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 5px;">
+  <div>
     <!-- 问卷基础信息 -->
     <div class="center-basic">
       <h3>{{ research.title }}</h3>
@@ -7,10 +7,10 @@
     </div>
     <el-form :model="research.values" v-bind="research.config" ref="previewRef">
       <transition-group name="drag" class="drag-list">
-        <div v-for="(item, index) in research.items" :key="item.fieldId" v-if="checkDisplay(item)">
+        <div v-for="(item, index) in research.items" :key="item.fieldID" v-if="checkDisplay(item)">
           <!-- 控件元素 -->
-          <el-form-item :label="item.label" :prop="item.fieldId" :rules="item.rules">
-            <el-radio-group v-if="item.factor === 'radio'" v-model="research.values[item.fieldId]">
+          <el-form-item :label="item.label" :prop="item.fieldID" :rules="item.rules">
+            <el-radio-group v-if="item.factor === 'radio'" v-model="research.values[item.fieldID]">
               <el-radio
                 v-for="(item2, index2) in item.options"
                 :key="index2"
@@ -20,7 +20,7 @@
             <!--复选框-->
             <el-checkbox-group
               v-else-if="item.factor === 'checkbox'"
-              v-model="research.values[item.fieldId]"
+              v-model="research.values[item.fieldID]"
             >
               <el-checkbox
                 v-for="(item2, index2) in item.options"
@@ -32,7 +32,7 @@
             <el-input
               v-else-if="item.factor === 'text'"
               :placeholder="item.placeholder"
-              v-model="research.values[item.fieldId]"
+              v-model="research.values[item.fieldID]"
               clearable
             ></el-input>
             <!-- 多行文本 -->
@@ -41,12 +41,12 @@
               type="textarea"
               :rows="item.rows"
               :placeholder="item.placeholder"
-              v-model="research.values[item.fieldId]"
+              v-model="research.values[item.fieldID]"
             ></el-input>
             <!-- 下拉选择 -->
             <el-select
               v-else-if="item.factor === 'select'"
-              v-model="research.values[item.fieldId]"
+              v-model="research.values[item.fieldID]"
               clearable
               :placeholder="item.placeholder"
             >
@@ -60,21 +60,21 @@
             <!-- 开关 -->
             <el-switch
               v-else-if="item.factor === 'switch'"
-              v-model="research.values[item.fieldId]"
+              v-model="research.values[item.fieldID]"
               :active-value="item.activeValue"
               :inactive-value="item.inactiveValue"
             ></el-switch>
             <!-- 时间值 -->
             <el-time-picker
               v-else-if="item.factor === 'timePicker'"
-              v-model="research.values[item.fieldId]"
+              v-model="research.values[item.fieldID]"
               value-format="hh-mm-ss"
               :placeholder="item.placeholder"
             ></el-time-picker>
             <!-- 日期值 -->
             <el-date-picker
               v-else-if="item.factor === 'datePicker'"
-              v-model="research.values[item.fieldId]"
+              v-model="research.values[item.fieldID]"
               value-format="yyyy-hh-dd"
               :placeholder="item.placeholder"
             ></el-date-picker>
@@ -89,16 +89,13 @@
 </template>
 
 <script>
-import { Message } from "element-ui";
 export default {
   name: "ResearchPreview",
   props: {
-    previewData: Object,
+    research: Object,
   },
   data() {
-    return {
-      research: JSON.parse(JSON.stringify(this.previewData)),
-    };
+    return {};
   },
   methods: {
     // 检查是否展示
@@ -107,9 +104,9 @@ export default {
         return true;
       }
       for (let i = 0; i < item.display.length; i++) {
-        const fieldId = item.display[i][0];
+        const fieldID = item.display[i][0];
         const value = item.display[i][1];
-        const fieldValue = this.research.values[fieldId];
+        const fieldValue = this.research.values[fieldID];
         if (fieldValue instanceof Array && fieldValue.indexOf(value) !== -1) {
           return true;
         } else if (fieldValue === value) {
@@ -121,33 +118,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          Message({
-            message: "提交成功",
-            type: "success",
-            duration: 2 * 1000,
-          });
+          this.$emit("submit");
         } else {
-          Message({
-            message: "提交失败",
-            type: "error",
-            duration: 2 * 1000,
-          });
           return false;
         }
       });
     },
   },
-  // computed: {
-  //   research: {
-  //     get() {
-  //       // return this.previewData;
-  //       return JSON.parse(JSON.stringify(this.previewData));
-  //     },
-  //     set(newValue) {
-  //       console.log(newValue);
-  //     }
-  //   }
-  // }
 };
 </script>
 

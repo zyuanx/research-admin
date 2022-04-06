@@ -7,7 +7,6 @@ Router.prototype.push = function push(location, onResolve, onReject) {
     return originalPush.call(this, location, onResolve, onReject);
   return originalPush.call(this, location).catch((err) => err);
 };
-// Redirected when going from "/login?redirect=%2Fsystem%2Fuser" to "/system/user" via a navigation guard
 Vue.use(Router);
 
 /* Layout */
@@ -52,6 +51,14 @@ export const constantRoutes = [
         },
       },
     ],
+  },
+  {
+    path: "/survey/open/:id",
+    component: () => import("@/views/survey/research-open/index"),
+    hidden: true,
+    meta: {
+      title: "问卷收集",
+    },
   },
 ];
 
@@ -117,12 +124,12 @@ export const asyncRoutes = [
         name: "ResearchCreate",
         component: () => import("@/views/survey/research-create/index"),
         meta: {
-          title: "问卷创建",
+          title: "问卷设计",
           icon: "form",
         },
       },
       {
-        path: "/survey/show",
+        path: "/survey/list",
         name: "ResearchShow",
         component: () => import("@/views/survey/research-list/index"),
         meta: {
@@ -131,9 +138,10 @@ export const asyncRoutes = [
         },
       },
       {
-        path: "/survey/record",
+        path: "/survey/record/:id",
         name: "ResearchRecord",
         component: () => import("@/views/survey/record-list/index"),
+        hidden: true,
         meta: {
           title: "填写记录",
           icon: "table",
@@ -157,6 +165,7 @@ export const asyncRoutes = [
       },
     ],
   },
+
   {
     path: "/drawer/:id",
     component: () => import("@/views/survey/research-square/drawer"),

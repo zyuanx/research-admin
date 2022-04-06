@@ -1,27 +1,14 @@
 <template>
-  <div style="padding: 5px;">
+  <div>
     <!-- 问卷基础信息 -->
     <div class="center-basic">
       <h3>{{ research.title }}</h3>
       <p>{{ research.description }}</p>
     </div>
-    <el-form :model="research.values" v-bind="research.config" ref="researchRef">
-      <transition-group name="drag" class="drag-list">
-        <div
-          v-for="(item, index) in research.items"
-          :key="item.fieldID"
-          :class="[editIndex === index ? 'bg-select' : '', dragIndex === index ? 'bg-drag' : '', 'center-form']"
-          draggable
-          @dragenter="dragenter($event, index)"
-          @dragstart="dragstart(index)"
-          @dragend="dragend(index)"
-          @dragover="dragover($event, index)"
-          @click="setEditIndex(index)"
-        >
+    <el-form :model="research.values" v-bind="research.config" ref="previewRef">
+        <div v-for="(item, index) in research.items" :key="item.fieldID" v-if="checkDisplay(item)">
           <!-- 控件元素 -->
           <el-form-item :label="item.label" :prop="item.fieldID" :rules="item.rules">
-            <!-- <span slot="error">Label for the slot</span> -->
-            <!--单选框-->
             <el-radio-group v-if="item.factor === 'radio'" v-model="research.values[item.fieldID]">
               <el-radio
                 v-for="(item2, index2) in item.options"
@@ -92,69 +79,63 @@
             ></el-date-picker>
           </el-form-item>
         </div>
-      </transition-group>
+
     </el-form>
     <div style="text-align:center;margin-top: 5px;">
-      <el-button type="primary" size="medium">提交</el-button>
+      <el-button type="primary" size="medium" @click="submitForm('previewRef')">提交</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import { Message } from "element-ui";
 export default {
-  name: "ResearchDesign",
-  model: {
-    prop: "research",
-    event: "change"
-  },
+  name: "ResearchPreview",
   props: {
-    research: Object,
-    editIndex: Number,
+    previewData: Object,
   },
   data() {
     return {
-      dragIndex: -1,
+      research: JSON.parse(JSON.stringify(this.previewData)),
     };
   },
   methods: {
-    setEditIndex: function (editIndex) {
-      this.$emit("set-edit-index", editIndex);
-    },
-    shuffle() {
-      this.research.items = this.$shuffle(this.research.items);
-    },
-    dragstart(index) {
-      this.dragIndex = index;
-    },
-    dragend(index) {
-      this.dragIndex = -1;
-    },
-    dragenter(e, index) {
-      e.preventDefault();
-      // 避免源对象触发自身的dragenter事件
-      if (this.dragIndex !== index) {
-        const source = this.research.items[this.dragIndex];
-        this.research.items.splice(this.dragIndex, 1);
-        this.research.items.splice(index, 0, source);
-        // 排序变化后目标对象的索引变成源对象的索引
-        this.dragIndex = index;
+    // 检查是否展示
+    checkDisplay(item) {
+      if (item.display === undefined || item.display.length === 0) {
+        return true;
       }
+      for (let i = 0; i < item.display.length; i++) {
+        const fieldID = item.display[i][0];
+        const value = item.display[i][1];
+        const fieldValue = this.research.values[fieldID];
+        if (fieldValue instanceof Array && fieldValue.indexOf(value) !== -1) {
+          return true;
+        } else if (fieldValue === value) {
+          return true;
+        }
+      }
+      return false;
     },
-    dragover(e) {
-      e.preventDefault();
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          Message({
+            message: "提交成功",
+            type: "success",
+            duration: 2 * 1000,
+          });
+        } else {
+          Message({
+            message: "提交失败",
+            type: "error",
+            duration: 2 * 1000,
+          });
+          return false;
+        }
+      });
     },
-    // submitForm(formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       // this.confirmEdit();
-    //     } else {
-    //       console.log("error submit!!");
-    //       return false;
-    //     }
-    //   });
-    // },
-
-  }
+  },
 };
 </script>
 
@@ -173,27 +154,5 @@ export default {
     padding: 5px;
   }
 }
-// 选中控件
-.drag-list {
-  // .drag-move {
-  //   transition: transform 0.3s;
-  // }
-  .bg-select {
-    border-top: 2px solid #3498db;
-    background-color: #f2f6fc;
-  }
 
-  .bg-drag {
-    border: 1.5px dashed #909399;
-  }
-  .center-form {
-    cursor: move;
-    padding: 5px;
-    margin-top: 2px;
-    border-radius: 5px;
-    &:hover {
-      background-color: #f2f6fc;
-    }
-  }
-}
 </style>
