@@ -31,9 +31,7 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           let { roles } = await store.dispatch("user/getInfo");
-          roles = roles.map(function(item) {
-            return item.title;
-          });
+          roles = roles.map(item => item.title);
           const accessRoutes = await store.dispatch(
             "permission/generateRoutes",
             roles

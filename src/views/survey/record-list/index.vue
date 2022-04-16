@@ -28,7 +28,7 @@
       :total="total"
     ></el-pagination>
     <el-drawer title="记录预览" :visible.sync="drawer" size="700px">
-      <research-preview :preview-data="research" style="margin: 20px;"></research-preview>
+      <research-preview :preview-data="research" v-if="drawer" style="margin: 20px;"></research-preview>
     </el-drawer>
   </div>
 </template>
@@ -69,10 +69,8 @@ export default {
         description: res.data.research.description,
         config: JSON.parse(res.data.research.config),
         items: JSON.parse(res.data.research.items),
-        values: JSON.parse(res.data.research.values),
         startAt: res.data.research.startAt,
         endAt: res.data.research.endAt,
-        access: JSON.parse(res.data.research.access),
         once: res.data.research.once,
         open: res.data.research.once,
       };
@@ -91,7 +89,8 @@ export default {
       this.fetchData();
     },
     async readRecord(row) {
-      this.research.values = JSON.parse(row.values);
+      this.$set(this.research, "values", JSON.parse(row.values));
+      // this.research.values = JSON.parse(row.values);
       this.drawer = true;
     }
   }

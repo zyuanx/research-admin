@@ -57,7 +57,7 @@ const actions = {
           }
           // data.user.roles = data.user.roles.map(x => x.title)
           let { username, nickname, roles } = data.user;
-          roles = roles.map(function(item){return item.title})
+          roles = roles.map(item => item.title)
           if (roles.length === 0) {
             roles = ["common"];
             // reject("getInfo: roles must be a non-null array!")
