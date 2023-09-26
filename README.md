@@ -1,12 +1,9 @@
-# vue-research-admin
+# research-admin
 
-## 关于这个项目
+> 动态问卷设计
+> Dynamic form, survey questionnaire frontend system.
 
-> 动态问卷设计发布、数据查看下载
->
-> Dynamic form, survey questionnaire frontend system. Back-end repo: [gin-research-sys](https://github.com/Pandalzy/gin-research-sys)
-
-WIP 进入 [research-sys](https://github.com/zyuanx/research-sys) 开发分支查看
+新版WIP [research-sys](https://github.com/zyuanx/research-sys) 
 ### Work list
 
 -   [x] RBAC 用户管理
